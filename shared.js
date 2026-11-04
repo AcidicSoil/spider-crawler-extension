@@ -45,7 +45,7 @@
     size: 1,               // 0.5 .. 2
     speed: 1,              // 0.5 .. 2
     hunt: '',              // what to hunt for; empty = every link
-    useJev: true,          // use Jev when a key is set
+    useJev: true,          // use configured local model or keyed remote Jev
     jevThreshold: 0.5,
     wrapRejects: true,     // walk over and cocoon links that are not a match
     showHud: true,

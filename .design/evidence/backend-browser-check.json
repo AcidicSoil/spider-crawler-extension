@@ -1,0 +1,52 @@
+{
+  "observedAt": "2026-11-04T21:35:21.217Z",
+  "page": "https://en.wikipedia.org/wiki/Spider",
+  "before": {
+    "host": true,
+    "canvas": true,
+    "state": "walk",
+    "steps": 934,
+    "finds": 62,
+    "hunt": "all",
+    "pointerEvents": "none"
+  },
+  "after": {
+    "host": true,
+    "canvas": true,
+    "state": "walk",
+    "steps": 969,
+    "finds": 63,
+    "hunt": "all",
+    "pointerEvents": "none"
+  },
+  "backendResultCount": 64,
+  "sample": {
+    "sessionId": "5890e894-cc1c-49cb-a614-c9ff695ba788",
+    "href": "https://en.wikipedia.org/wiki/Spider",
+    "kind": "bite",
+    "text": "Article",
+    "pageUrl": "https://en.wikipedia.org/wiki/Spider",
+    "hunt": "",
+    "source": "all",
+    "probability": null,
+    "at": 1793828120694
+  },
+  "popupBackendState": "Backend connected",
+  "popupJevState": "",
+  "screenshot": ".design/evidence/backend-hunt.png",
+  "popupScreenshot": ".design/evidence/backend-popup.png",
+  "dashboard": {
+    "url": "http://127.0.0.1:5195/",
+    "before": {
+      "count": 25,
+      "total": "87 recent actions",
+      "spider": true
+    },
+    "after": {
+      "count": 25,
+      "total": "88 recent actions",
+      "spider": true
+    },
+    "screenshot": ".design/evidence/backend-dashboard.png"
+  }
+}

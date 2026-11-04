@@ -4,7 +4,8 @@
 // alternating tetrapod gait.
 //
 // Hunting: if `hunt` is set, each visible link is judged (by the Jev decision
-// model through background.js when a key is configured, otherwise by keyword).
+// model through background.js when a local model is selected or a remote key is
+// configured, otherwise by keyword).
 // Matches are bitten and ripped into the HUD; non-matches can be wrapped in a
 // silk cocoon. With no hunt, every link is a find.
 //
@@ -49,6 +50,15 @@
   const verdicts = new Map();         // href -> { kind: 'bite'|'wrap', p: number|null, by: 'jev'|'kw'|'all' }
   const judging = new Set();          // hrefs currently with Jev
   const pendingLog = [];
+  const backend = { busy: false, error: null, retryAt: 0 };
+  function newSessionId() {
+    const b = crypto.getRandomValues(new Uint8Array(16));
+    b[6] = (b[6] & 15) | 64;
+    b[8] = (b[8] & 63) | 128;
+    const h = [...b].map(byte => byte.toString(16).padStart(2, '0')).join('');
+    return `${h.slice(0,8)}-${h.slice(8,12)}-${h.slice(12,16)}-${h.slice(16,20)}-${h.slice(20)}`;
+  }
+  let sessionId = newSessionId();
   let running = false;
   let rafId = 0;
   let lastTs = 0;
@@ -59,6 +69,9 @@
   let dpr = 1;
   let hud = null;
   let styleEl = null;
+  let overlayHost = null;
+  let overlayRoot = null;
+  let shadowStyleEl = null;
   let flushTimer = null;
   let finds = 0;
   let wrapped = 0;
@@ -160,20 +173,25 @@
     const font = r8 ? '700 12px/1.3 "Courier New",ui-monospace,monospace' : '600 12px/1.4 ui-monospace,Consolas,monospace';
     const radius = r8 ? '0' : '10px';
     const hudShadow = r8 ? `4px 4px 0 ${k.shell}` : `0 0 14px ${hexA(k.glow, 0.55)},inset 0 0 10px ${hexA(k.accent, 0.18)}`;
+    const luminance = [1, 3, 5].reduce((sum, i, channel) => sum + parseInt(k.shell.slice(i, i + 2), 16) * [0.2126, 0.7152, 0.0722][channel], 0);
+    const lightSkin = luminance > 145;
+    const overlayInk = lightSkin ? '#f5f2ff' : k.legTip;
+    const overlayBackground = lightSkin ? '#0d0716' : hexA(k.shell, 0.92);
+    const hudAccent = lightSkin ? '#b9ebff' : k.accent;
     return `
     #__spider_canvas{position:fixed;left:0;top:0;width:100vw;height:100vh;pointer-events:none;z-index:2147483646}
     #__spider_canvas.r8{image-rendering:pixelated}
     .__spider_hit{outline:2px ${r8 ? 'dashed' : 'solid'} ${k.accent} !important;outline-offset:3px !important;${r8 ? '' : `box-shadow:0 0 14px ${k.glow} !important;`}border-radius:${r8 ? 0 : 3}px}
     .__spider_cocoon{opacity:.38 !important;filter:grayscale(1) !important;text-decoration:line-through ${k.legTip} 2px !important;outline:1px dotted ${hexA(k.legTip, 0.8)} !important;outline-offset:2px !important}
     .__spider_chip{position:fixed;left:0;top:0;z-index:2147483647;pointer-events:none;max-width:260px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;
-      font:${font};color:${k.legTip};background:${hexA(k.shell, 0.92)};border:${r8 ? 2 : 1}px solid ${k.leg};
+      font:${font};color:${overlayInk};background:${overlayBackground};border:${r8 ? 2 : 1}px solid ${k.leg};
       box-shadow:${r8 ? `3px 3px 0 ${k.shellMid}` : `0 0 12px ${hexA(k.accent, 0.55)}`};padding:4px 8px;border-radius:${r8 ? 0 : 6}px;
       transition:transform .85s ${r8 ? 'steps(8)' : 'cubic-bezier(.5,-0.3,.7,1)'},opacity .85s ease-in}
-    #__spider_hud{position:fixed;right:12px;bottom:12px;z-index:2147483647;pointer-events:none;font:${font};letter-spacing:.04em;color:${k.legTip};
-      background:${r8 ? k.shell : `linear-gradient(135deg,${hexA(k.shell, 0.94)},${hexA(k.shellMid, 0.94)})`};border:${r8 ? 3 : 1}px solid ${k.leg};
+    #__spider_hud{position:fixed;right:12px;bottom:12px;z-index:2147483647;pointer-events:none;font:${font};letter-spacing:.04em;color:${overlayInk};
+      background:${lightSkin ? overlayBackground : r8 ? k.shell : `linear-gradient(135deg,${hexA(k.shell, 0.94)},${hexA(k.shellMid, 0.94)})`};border:${r8 ? 3 : 1}px solid ${k.leg};
       box-shadow:${hudShadow};padding:6px 12px;border-radius:${radius};${r8 ? 'text-transform:uppercase;' : ''}
       max-width:calc(100vw - 24px);box-sizing:border-box}
-    #__spider_hud b{color:${k.accent};${r8 ? '' : `text-shadow:0 0 8px ${k.accent}`}}
+    #__spider_hud b{color:${hudAccent};${r8 ? '' : `text-shadow:0 0 8px ${k.accent}`}}
     #__spider_hud i{font-style:normal;opacity:.75}
   `;
   }
@@ -181,12 +199,22 @@
   function applyLook() {
     skin = resolveSkin(cfg);
     if (styleEl) styleEl.textContent = css();
+    if (shadowStyleEl) shadowStyleEl.textContent = css();
     if (canvas) canvas.classList.toggle('r8', retro());
     if (hud) hud.style.display = cfg.showHud ? '' : 'none';
     updateHud();
   }
 
   function ensureDom() {
+    if (!overlayHost) {
+      overlayHost = document.createElement('div');
+      overlayHost.id = '__spider_root';
+      overlayHost.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:2147483646';
+      overlayRoot = overlayHost.attachShadow({ mode: 'open' });
+      shadowStyleEl = document.createElement('style');
+      overlayRoot.appendChild(shadowStyleEl);
+      (document.body || document.documentElement).appendChild(overlayHost);
+    }
     if (!styleEl) {
       styleEl = document.createElement('style');
       styleEl.id = '__spider_style';
@@ -195,7 +223,7 @@
     if (!canvas) {
       canvas = document.createElement('canvas');
       canvas.id = '__spider_canvas';
-      (document.body || document.documentElement).appendChild(canvas);
+      overlayRoot.appendChild(canvas);
       ctx = canvas.getContext('2d');
       lo = document.createElement('canvas');
       lctx = lo.getContext('2d');
@@ -204,7 +232,7 @@
     if (!hud) {
       hud = document.createElement('div');
       hud.id = '__spider_hud';
-      (document.body || document.documentElement).appendChild(hud);
+      overlayRoot.appendChild(hud);
     }
     applyLook();
   }
@@ -216,9 +244,13 @@
     canvas.height = Math.round(window.innerHeight * dpr);
   }
 
+  function jevConfigured() {
+    return cfg.jevProvider === 'local' ? !!cfg.jevLocalModel : jevKeySet;
+  }
+
   function huntMode() {
     if (!String(cfg.hunt || '').trim()) return 'all';
-    if (cfg.useJev && jevKeySet && !(jev.error && Date.now() - jev.errorAt < JEV_ERROR_COOLDOWN)) return 'jev';
+    if (cfg.useJev && jevConfigured() && !(jev.error && Date.now() - jev.errorAt < JEV_ERROR_COOLDOWN)) return 'jev';
     return 'kw';
   }
 
@@ -228,11 +260,12 @@
     let tail = '';
     if (mode === 'jev') {
       tail = jev.perLink != null ? ` <i>&middot; jev ${jev.perLink}ms/link</i>` : ' <i>&middot; jev&hellip;</i>';
-    } else if (mode === 'kw' && cfg.useJev && jevKeySet && jev.error) {
+    } else if (mode === 'kw' && cfg.useJev && jevConfigured() && jev.error) {
       tail = ` <i>&middot; jev ${jev.error}, keyword</i>`;
     } else if (mode === 'kw') {
       tail = ' <i>&middot; keyword</i>';
     }
+    if (backend.error) tail += ' <i>&middot; backend offline</i>';
     const w = mode === 'all' ? '' : ` &middot; <b>${wrapped}</b> wrapped`;
     const icon = { spider: '\u{1F577}', octopus: '\u{1F419}', slime: '\u{1F9EA}' }[cfg.creature] || '\u{1F577}';
     hud.innerHTML = `${icon} CRAWLER &middot; <b>${finds}</b> ${finds === 1 ? 'find' : 'finds'}${w}${tail}`;
@@ -249,6 +282,7 @@
       const a = anchors[i];
       const href = a.href;
       if (!href || !/^https?:/i.test(href) || visited.has(href)) continue;
+      if (a.closest('form,dialog,[popover],[contenteditable]:not([contenteditable="false"]),[aria-hidden="true"],[hidden],[inert],[data-cr4wler-ignore]')) continue;
       const r = a.getBoundingClientRect();
       if (r.width < 4 || r.height < 4) continue;
       if (r.bottom < 0 || r.top > vh || r.right < 0 || r.left > vw) continue;
@@ -339,14 +373,54 @@
     }
     if (mode === 'jev' && unknown.length) requestJudge(unknown);
 
-    let pick = null;
-    let kind = null;
-    if (bites.length && (!wraps.length || Math.random() > 0.3)) { pick = nearestPick(bites); kind = 'bite'; }
-    else if (wraps.length) { pick = nearestPick(wraps); kind = 'wrap'; }
-
+    const candidates = bites.concat(wraps);
+    // Backend chooses page targets; the content script owns DOM access and motion.
+    if (candidates.length && HAS_STORAGE && /^https?:$/.test(location.protocol)) {
+      if (!backend.busy && Date.now() >= backend.retryAt) {
+        const currentSession = sessionId;
+        const offered = candidates.slice(0, 64);
+        backend.busy = true;
+        const select = response => {
+          if (sessionId !== currentSession) return;
+          backend.busy = false;
+          if (!running || !sp) return;
+          if (!response?.ok) {
+            backend.error = response?.error || 'backend_offline';
+            backend.retryAt = Date.now() + 3000;
+            updateHud();
+            return;
+          }
+          backend.error = null;
+          const choice = response.data?.target;
+          const link = offered.find(l => l.href === choice?.href && l.v.kind === choice?.kind);
+          if (link && !visited.has(link.href)) {
+            sp.target = link;
+            sp.kind = link.v.kind;
+            link.el.classList.add('__spider_hit');
+            sp.state = 'walk';
+          }
+          updateHud();
+        };
+        try {
+          chrome.runtime.sendMessage({
+            type: 'spider-next', sessionId: currentSession, pageUrl: location.href,
+            hunt: String(cfg.hunt || '').slice(0, 300), position: { x: sp.x, y: sp.y },
+            candidates: offered.map(l => ({ href: l.href, text: l.text, kind: l.v.kind,
+              by: l.v.by, p: l.v.p, cx: l.cx, cy: l.cy })),
+          }, response => {
+            select(chrome.runtime.lastError ? { ok: false, error: 'backend_offline' } : response);
+          });
+        } catch { select({ ok: false, error: 'backend_offline' }); }
+      }
+      sp.state = 'idle';
+      sp.waitUntil = performance.now() + 350;
+      return;
+    }
+    // Upstream local-hunt preview remains available on extension-internal pages.
+    const pick = bites.length ? nearestPick(bites) : wraps.length ? nearestPick(wraps) : null;
     if (pick) {
       sp.target = pick;
-      sp.kind = kind;
+      sp.kind = pick.v.kind;
       pick.el.classList.add('__spider_hit');
       sp.state = 'walk';
       return;
@@ -377,7 +451,7 @@
     chip.className = '__spider_chip';
     chip.textContent = t.text || t.href;
     chip.style.transform = `translate(${x}px, ${y}px)`;
-    document.documentElement.appendChild(chip);
+    overlayRoot.appendChild(chip);
     const hr = hud && cfg.showHud ? hud.getBoundingClientRect() : { left: window.innerWidth - 120, top: window.innerHeight - 30 };
     requestAnimationFrame(() => {
       chip.style.transform = `translate(${hr.left}px, ${hr.top}px) scale(.35) rotate(-8deg)`;
@@ -390,6 +464,17 @@
     const t = sp.target;
     const kind = sp.kind;
     visited.add(t.href);
+    if (HAS_STORAGE && /^https?:$/.test(location.protocol)) {
+      chrome.runtime.sendMessage({
+        type: 'spider-action', sessionId, pageUrl: location.href,
+        href: t.href, text: t.text, kind, by: t.v?.by || 'all', p: t.v?.p ?? null,
+      }, response => {
+        if (chrome.runtime.lastError || !response?.ok) {
+          backend.error = response?.error || 'backend_offline';
+          updateHud();
+        }
+      });
+    }
     const r = t.el.getBoundingClientRect();
     const cx = r.left + r.width / 2;
     const cy = r.top + r.height / 2;
@@ -1204,10 +1289,11 @@
     rings.length = 0;
     cocoons.length = 0;
     document.querySelectorAll('.__spider_hit').forEach((el) => el.classList.remove('__spider_hit'));
-    document.querySelectorAll('.__spider_chip').forEach((el) => el.remove());
+    overlayRoot?.querySelectorAll('.__spider_chip').forEach((el) => el.remove());
     if (canvas) { canvas.remove(); canvas = null; ctx = null; lo = null; lctx = null; }
     if (hud) { hud.remove(); hud = null; }
     if (styleEl) { styleEl.remove(); styleEl = null; }
+    if (overlayHost) { overlayHost.remove(); overlayHost = null; overlayRoot = null; shadowStyleEl = null; }
   }
 
   function applySettings(next, first) {
@@ -1218,6 +1304,9 @@
       verdicts.clear();
       document.querySelectorAll('.__spider_cocoon').forEach((el) => el.classList.remove('__spider_cocoon'));
       visited.clear();
+      sessionId = newSessionId();
+      backend.busy = false;
+      backend.error = null;
     }
     if (!cfg.enabled) { stop(); return; }
     if (!running) { start(); return; }
@@ -1235,17 +1324,23 @@
   window.addEventListener('pagehide', flush);
 
   if (HAS_STORAGE) {
-    const keys = Object.assign({}, DEFAULTS, { jevKeySet: false });
+    const keys = Object.assign({}, DEFAULTS, {
+      jevKeySet: false, jevProvider: 'typesafe', jevLocalModel: '',
+    });
     chrome.storage.local.get(keys, (v) => {
       jevKeySet = !!v.jevKeySet;
       applySettings(v, true);
     });
     chrome.storage.onChanged.addListener((changes, area) => {
       if (area !== 'local') return;
-      if (changes.jevKeySet) { jevKeySet = !!changes.jevKeySet.newValue; jev.error = null; verdicts.clear(); }
-      const touched = Object.keys(changes).some((k) => k in DEFAULTS);
-      if (!touched) { if (changes.jevKeySet) updateHud(); return; }
-      chrome.storage.local.get(DEFAULTS, (v) => applySettings(v, false));
+      const jevChanged = !!(changes.jevKeySet || changes.jevProvider || changes.jevLocalModel);
+      if (changes.jevKeySet) jevKeySet = !!changes.jevKeySet.newValue;
+      if (jevChanged) { jev.error = null; verdicts.clear(); visited.clear(); }
+      const touched = jevChanged || Object.keys(changes).some((k) => k in DEFAULTS);
+      if (!touched) return;
+      chrome.storage.local.get(Object.assign({}, DEFAULTS, {
+        jevProvider: 'typesafe', jevLocalModel: '',
+      }), (v) => applySettings(v, false));
     });
   } else {
     applySettings({}, true);

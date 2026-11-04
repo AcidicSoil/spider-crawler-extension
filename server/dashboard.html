@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Spider Crawler</title>
+<style>
+:root { color-scheme: dark; font: 15px/1.5 system-ui, sans-serif; background: #0d0716; color: #e9ddff; }
+body { max-width: 880px; margin: 38px auto; padding: 0 24px; }
+h1 { font-size: 24px; margin: 0 0 16px; }
+h2 { font-size: 16px; margin: 28px 0 12px; }
+nav { display: flex; flex-wrap: wrap; gap: 12px; }
+a { color: #39ff88; border: 1px solid #3a1f5c; border-radius: 8px; padding: 10px 14px; text-decoration: none; }
+a:hover, a:focus-visible { outline: 2px solid #39ff88; outline-offset: 2px; }
+ol { margin: 0; padding: 0; list-style: none; }
+li { border-bottom: 1px solid #3a1f5c; padding: 9px 0; overflow-wrap: anywhere; }
+small { color: #a58fc7; }
+</style>
+</head>
+<body>
+<h1>Spider Crawler</h1>
+<nav>
+  <a href="https://en.wikipedia.org/wiki/Spider">Spider</a>
+  <a href="https://en.wikipedia.org/wiki/Jumping_spider">Jumping spider</a>
+  <a href="https://en.wikipedia.org/wiki/Tarantula">Tarantula</a>
+  <a href="https://en.wikipedia.org/wiki/Banana">Banana</a>
+  <a href="https://en.wikipedia.org/wiki/Jazz">Jazz</a>
+</nav>
+<h2 id="total">Actions</h2>
+<ol id="actions"></ol>
+<script>
+async function refresh() {
+  try {
+    const response = await fetch('/api/results', { cache: 'no-store' });
+    if (!response.ok) throw new Error();
+    const data = await response.json();
+    document.getElementById('total').textContent = data.actions.length + ' recent actions';
+    const items = data.actions.slice(0, 25).map(action => {
+      const li = document.createElement('li');
+      li.textContent = action.kind + ' · ' + action.text;
+      const detail = document.createElement('small');
+      detail.textContent = ' · ' + action.pageUrl;
+      li.append(detail);
+      return li;
+    });
+    document.getElementById('actions').replaceChildren(...items);
+  } catch {
+    document.getElementById('total').textContent = 'Backend offline';
+  }
+}
+void refresh();
+setInterval(refresh, 2000);
+</script>
+</body>
+</html>

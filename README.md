@@ -4,7 +4,7 @@ A Chrome / Edge / Brave extension that drops **one big creature** onto any web p
 
 It crawls the page, **grabs the links you are hunting for** and **wraps everything else** in silk, ink or goo.
 
-Turn on **Jev** (a decision model) and it judges every link by meaning, not keywords. On real Wikipedia pages that took about **17 to 20 ms per link**.
+Turn on **Jev** and select a decision-capable local or remote model to classify links by meaning rather than keywords. Latency depends on the selected model and server.
 
 **▶ [Watch the 38 s showcase clip (mp4)](https://github.com/AlungranPJ/spider-crawler-extension/raw/main/docs/showcase.mp4)**: spider + Jev, octopus, slime, 8-bit.
 
@@ -32,7 +32,7 @@ You can switch creatures live from the toolbar popup.
   - Matches are grabbed and ripped into the HUD.
   - Non-matches are wrapped.
   - Leave it empty and every link is a find.
-- **Jev judging (optional).** Every visible link on the page is judged in **one batched yes/no call**. Without a key it falls back to keyword matching.
+- **Jev judging (optional).** Link relevance is judged in batched yes/no decisions. Choose an installed local decision model without an API key, or configure a supported remote provider. If unconfigured, the extension uses keyword matching.
 - **Skins.** 6 built-ins: Venom (purple x green), Laya (ice blue), Ember, Ghost, Black Gold and Matrix. A color editor lets you make your own, and skins export and import as JSON so you can share them. Skins work on all three creatures.
 - **Neon or 8-bit.** Neon has glow and gradients. 8-bit renders at 1/4 resolution with hard pixels and a retro HUD.
 - **Size and speed sliders**, plus a HUD toggle.
@@ -46,28 +46,26 @@ You can switch creatures live from the toolbar popup.
 4. Click **Load unpacked** and pick the unzipped folder (the one containing `manifest.json`).
 5. Open any website. The creature starts crawling.
 
-Click the toolbar icon for quick settings: on/off, hunt, creature, mode, skin and the crawl log. **Skins, colors & Jev settings** opens the full options page. The creature crawls the options page too, so you can preview changes live.
+Click the toolbar icon for quick settings: on/off, hunt, creature, mode, skin and the crawl log. **Settings** opens the full options page. The creature crawls the options page too, so you can preview changes live.
 
 ## Using Jev
 
-Jev is TypeSafe's decision model. It only answers typed questions (yes/no, choice, score), so it is fast and cheap for "is this link what I'm hunting for?"
+Jev uses the System One decision protocol to classify links as relevant or unrelated to your hunt.
 
-1. Get a key from one of these providers:
+**Local decision models (no key):**
 
-   | Provider | Notes |
-   |---|---|
-   | TypeSafe | `api.typesafe.ai` |
-   | OpenCode Zen | Has a **free tier** (`jev-1.13-free`) |
-   | OpenRouter | Uses its Decisions API |
-   | Venice | Serves Jev through its decisions API |
+1. Start an existing System One-compatible local model server, such as a llama.cpp router. The default server URL is `http://127.0.0.1:8800/v1`; you can enter another loopback port in **Settings → Hunt & Jev**.
+2. Choose **Local System One**. The extension automatically requests `GET /v1/models`. **Refresh models** repeats discovery.
+3. Pick **Decision model** from the discovered models. Only entries advertising `architecture.output_modalities` containing `decisions` are listed. Servers that advertise configured but unloaded models make those models selectable as well.
+4. Press **Test Jev** to exercise the selected model, then enter **Hunt for**.
 
-2. Open the options page, pick the provider, paste the key and press **Save key**.
-3. Press **Test Jev**. You should see something like `"Jumping spider" yes=0.87, "Privacy policy" yes=0.01`.
-4. Type something in **Hunt for**.
+**No model is selected automatically.** Model IDs come directly from the server, not a built-in list. Your choice and endpoint are stored locally. If the model disappears or the server is unavailable, the choice remains visible; no different model is substituted. Changing the endpoint successfully clears the old model choice so you can select one served by the new endpoint. Local endpoints are restricted to `http://127.0.0.1:<port>/v1` or `http://localhost:<port>/v1`.
 
-Each request sends the page title and URL plus the visible links (text and URL, up to 16 per call), with one `noul` (probability of yes) question per link. A link is grabbed when `p(yes) >= threshold`, which defaults to 0.5.
+**Remote Jev providers:** TypeSafe, OpenCode Zen, OpenRouter Decisions API, and Venice remain available. Select the provider, enter its API key, press **Save key**, and use **Test Jev**. Changing to Local System One does not erase your remote credentials.
 
-**Privacy:** your key is stored only in `chrome.storage.local` in your browser. It is never synced and never exposed to web pages, and it is sent only to the provider you picked, from the extension's background service worker. Nothing else is uploaded anywhere.
+Each request sends the page title, URL and a batch of visible links (text and URL), with a `noul` question per link. A link is grabbed when `p(yes) >= threshold`, which defaults to 0.5. An unconfigured model, a missing remote key or a decision-service failure falls back to keyword matching.
+
+**Privacy:** Remote API keys stay in `chrome.storage.local`, are never synced or exposed to webpages, and are sent only to the chosen remote provider by the extension service worker. Local inference is keyless; page/link information is sent to the explicitly configured loopback service, not an external provider.
 
 ## Skin JSON
 
@@ -86,12 +84,54 @@ Paste this into **Skin JSON** on the options page and press **Import JSON as ski
 
 | File | Role |
 |---|---|
-| `content.js` | Canvas overlay, creatures (IK legs, tentacles, soft-body slime), hunting, grab / wrap effects, HUD |
-| `background.js` | Calls the Jev provider (MV3 service worker, so no page CORS) |
+| `content.js` | Original IK creature animation, visible DOM targets, decisions, target execution |
+| `background.js` | Jev/System One requests and authenticated extension-to-backend messages |
+| `server/app.mjs` | Backend target selection and SQLite action history |
+| `server/start.mjs` | Loopback HTTP listener and preview server |
 | `shared.js` | Skins and default settings |
-| `popup.*`, `options.*` | Settings UI |
+| `popup.*`, `options.*` | Controls, local model selection and results access |
 
-There are no dependencies and no build step. It is plain Manifest V3.
+The extension remains dependency-free Manifest V3. The backend uses the installed **Bun** runtime and built-in SQLite; no separate crawling engine or browser automation service is required.
+
+## Backend-controlled, current-page hunting
+
+The backend **does not fetch other pages or navigate the browser**. Its job is to coordinate the actual animated spider on the page the user is viewing:
+
+1. The extension discovers visible links and computes a local keyword or optional Jev/System One decision for each one.
+2. The extension sends the candidates, spider position, page URL, and hunt objective to `POST /api/next`.
+3. The backend prioritizes relevant links, chooses the closest in that class, and records the pending target.
+4. The original spider renderer walks to that target and performs its bite or wrap animation.
+5. On arrival, `POST /api/actions` validates the assignment and records the completed action in SQLite. `GET /api/results` exposes local results; the popup's **Backend results** button opens them.
+
+Targets and completed actions are scoped to a unique page/hunt session. The server stores completed actions across restarts; the client never invents successful backend records. When the backend is unavailable, the spider shows **backend offline** rather than claiming an action was assigned. The settings-page playground retains the upstream local-only animation preview.
+
+### Launch
+
+```bash
+# Managed profile: starts the backend and opens the extension preview and example page.
+pinchtab-profile-manager spider-crawler-extension start --json
+
+# Manage the project's single backend/preview process.
+pinchtab-profile-manager spider-crawler-extension project status --json
+pinchtab-profile-manager spider-crawler-extension project stop --json
+pinchtab-profile-manager spider-crawler-extension project start --json
+
+# Or run the backend directly from the extension checkout (outside PPM).
+bun server/start.mjs
+```
+
+The backend listens only on `127.0.0.1:5195`. It serves the live link-and-results dashboard at `/` and preview assets on `/popup.html` and `/options.html`; its health endpoint is `GET /api/health`. Cross-origin browser writes are rejected unless the request comes from a browser extension origin; local processes can still call the unauthenticated loopback API. Do not expose port `5195` through a network proxy or port forward. Actions are persisted under `~/.local/state/spider-crawler-extension/actions.sqlite` (override with `SPIDER_DB` only if explicitly configured). The listener is intentionally local; it has no external crawl capability.
+
+Run scoped tests:
+
+```bash
+node --test tests/jev-local.test.mjs tests/jev-settings.test.mjs tests/popup-controls.test.mjs tests/spider-coordinator.test.mjs
+bun test tests/backend.test.mjs
+```
+
+### References
+
+[cr4wler](https://github.com/funsaized/cr4wler) informed Shadow DOM overlay and exclusion patterns. The [original Spider Crawler](https://github.com/AlungranPJ/spider-crawler-extension) supplies the existing creature renderer and inverse-kinematics gait. [Fred Fokan's web-crawler](https://github.com/fredfokan/web-crawler) served as a leg-placement behavior reference; no unlicensed source was copied.
 
 ## Credits
 

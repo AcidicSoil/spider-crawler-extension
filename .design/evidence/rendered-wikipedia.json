@@ -1,0 +1,43 @@
+{
+  "captureMethod": "Managed PinchTab paired PNG plus DOM evaluation",
+  "url": "https://en.wikipedia.org/wiki/Spider",
+  "screenshot": ".design/evidence/wikipedia-overlay.png",
+  "checks": [
+    {
+      "name": "shadow-canvas",
+      "observed": 1
+    },
+    {
+      "name": "shadow-hud",
+      "observed": 1
+    },
+    {
+      "name": "pointer-events",
+      "observed": "none"
+    },
+    {
+      "name": "miku-status",
+      "observed": "completed"
+    },
+    {
+      "name": "miku-scanned-pages",
+      "observed": 5
+    },
+    {
+      "name": "animation-state-after-completion",
+      "observed": "idle"
+    },
+    {
+      "name": "animation-steps-after-completion",
+      "observed": 0
+    },
+    {
+      "name": "javascript-errors",
+      "observed": 0
+    }
+  ],
+  "limitations": [
+    "Miku is a separate local service; port 3100 must be available",
+    "No claim of an independently reviewed animation redesign"
+  ]
+}

@@ -21,7 +21,7 @@
 </head>
 <body>
   <h1><span class="logo">🕷</span> Spider Crawler settings</h1>
-  <p class="note">Changes apply live. The spider is crawling this page too, so you can preview every change on the playground links below.</p>
+
 
   <div class="card">
     <h2>Look</h2>
@@ -70,7 +70,7 @@
       <input type="text" id="hunt" placeholder="e.g. spiders, open-source AI tools, job postings">
     </div>
     <label class="toggle"><input type="checkbox" id="wrapRejects"> Wrap links that do not match in silk</label>
-    <label class="toggle"><input type="checkbox" id="useJev"> Let Jev judge links (needs an API key, otherwise keyword match)</label>
+    <label class="toggle"><input type="checkbox" id="useJev"> Use Jev to judge links</label>
     <div class="row2">
       <div class="field"><span>Jev provider</span>
         <select id="jevProvider">
@@ -78,19 +78,34 @@
           <option value="zen">OpenCode Zen (free tier)</option>
           <option value="openrouter">OpenRouter Decisions API</option>
           <option value="venice">Venice</option>
+          <option value="local">Local System One</option>
         </select>
       </div>
       <div class="field"><span>Bite threshold <small id="thV"></small></span><input type="range" id="jevThreshold" min="0.1" max="0.9" step="0.05"></div>
     </div>
-    <div class="field"><span>API key <small id="keyState"></small></span>
+    <div id="jevLocalSettings" hidden>
+      <label class="field">Local endpoint
+        <input type="url" id="jevLocalUrl" placeholder="http://127.0.0.1:8800/v1" spellcheck="false" autocomplete="off">
+      </label>
       <div class="inline">
-        <input type="password" id="jevKey" placeholder="Paste key, then Save" autocomplete="off">
-        <button id="saveKey">Save key</button>
-        <button id="clearKey">Remove</button>
+        <label class="field">Decision model
+          <select id="jevLocalModel"><option value="">Choose model</option></select>
+        </label>
+        <button id="jevRefresh">Refresh models</button>
       </div>
+      <p id="jevLocalStatus" role="status" aria-live="polite" hidden></p>
+    </div>
+    <div id="jevKeySection">
+      <div class="field"><span>API key <small id="keyState"></small></span>
+        <div class="inline">
+          <input type="password" id="jevKey" placeholder="Paste key, then Save" autocomplete="off">
+          <button id="saveKey">Save key</button>
+          <button id="clearKey">Remove</button>
+        </div>
+      </div>
+      <p class="note">The key stays in this browser and is sent only to your selected remote provider.</p>
     </div>
     <div class="inline"><button id="testKey">Test Jev</button><span id="testOut" class="note"></span></div>
-    <p class="note">The key is stored only in this browser (chrome.storage.local, never synced) and is sent only to the provider you pick. It is never sent to any page.</p>
   </div>
 
   <div class="card playground">

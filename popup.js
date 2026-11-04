@@ -1,6 +1,5 @@
 const { DEFAULTS, SKINS } = self.SpiderShared;
 const $ = (id) => document.getElementById(id);
-
 function fillSkins(sel, settings) {
   sel.innerHTML = '';
   for (const [id, s] of Object.entries(SKINS)) sel.add(new Option(s.name, id));
@@ -10,21 +9,35 @@ function fillSkins(sel, settings) {
 }
 
 function jevLine(v) {
-  if (!v.hunt.trim()) return 'Jev: idle (no hunt set, every link is a find)';
-  if (!v.jevKeySet) return 'Jev: no key, using keyword match';
-  if (!v.useJev) return 'Jev: off, using keyword match';
-  return `Jev: on (${v.jevProvider}), judging links`;
+  if (!v.hunt.trim()) return '';
+  if (!v.useJev || (v.jevProvider === 'local' ? !v.jevLocalModel : !v.jevKeySet)) {
+    return 'Keyword matching';
+  }
+  return v.jevProvider === 'local' ? `Jev · ${v.jevLocalModel}` : `Jev · ${v.jevProvider}`;
 }
 
-chrome.storage.local.get(Object.assign({}, DEFAULTS, { crawlLog: [], jevKeySet: false, jevProvider: 'typesafe' }), (v) => {
+function updateJev(v) {
+  const label = jevLine(v);
+  $('jevState').textContent = label;
+  $('jevState').hidden = !label;
+}
+
+chrome.storage.local.get(Object.assign({}, DEFAULTS, { crawlLog: [], jevKeySet: false, jevProvider: 'typesafe', jevLocalModel: '', }), (v) => {
   $('enabled').checked = !!v.enabled;
   $('hunt').value = v.hunt || '';
   $('mode').value = v.mode;
   $('creature').value = v.creature;
   fillSkins($('skin'), v);
   $('count').textContent = String((v.crawlLog || []).length);
-  $('jevState').textContent = jevLine(v);
+  updateJev(v);
 });
+
+chrome.runtime.sendMessage({ type: 'spider-health' }, response => {
+  $('backendState').textContent = !chrome.runtime.lastError && response?.ok
+    ? 'Backend connected' : 'Backend offline';
+});
+$('backendResults').addEventListener('click', () =>
+  chrome.tabs.create({ url: 'http://127.0.0.1:5195/' }));
 
 $('enabled').addEventListener('change', () => chrome.storage.local.set({ enabled: $('enabled').checked }));
 $('mode').addEventListener('change', () => chrome.storage.local.set({ mode: $('mode').value }));
@@ -52,9 +65,12 @@ $('options').addEventListener('click', () => chrome.runtime.openOptionsPage());
 chrome.storage.onChanged.addListener((changes, area) => {
   if (area !== 'local') return;
   if (changes.crawlLog) $('count').textContent = String((changes.crawlLog.newValue || []).length);
-  if (changes.jevKeySet || changes.hunt || changes.useJev) {
-    chrome.storage.local.get(Object.assign({}, DEFAULTS, { jevKeySet: false, jevProvider: 'typesafe' }), (v) => {
-      $('jevState').textContent = jevLine(v);
+  if (changes.jevKeySet || changes.hunt || changes.useJev ||
+      changes.jevProvider || changes.jevLocalModel) {
+    chrome.storage.local.get(Object.assign({}, DEFAULTS, {
+      jevKeySet: false, jevProvider: 'typesafe', jevLocalModel: '',
+    }), (v) => {
+      updateJev(v);
     });
   }
 });

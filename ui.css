@@ -3,6 +3,7 @@
   --purple: #b04dff; --green: #39ff88; --border: #3a1f5c;
 }
 * { box-sizing: border-box; }
+[hidden] { display: none !important; }
 body { margin: 0; padding: 14px; background: var(--bg); color: var(--fg); font: 13px/1.45 system-ui, -apple-system, Segoe UI, sans-serif; }
 h1 { font-size: 16px; margin: 0 0 12px; letter-spacing: .02em; }
 h1 .logo { filter: drop-shadow(0 0 6px var(--green)); }
@@ -10,7 +11,7 @@ h2 { font-size: 14px; margin: 22px 0 8px; color: var(--green); letter-spacing: .
 small { color: var(--muted); font-weight: 400; }
 .field { display: flex; flex-direction: column; gap: 4px; margin: 8px 0; }
 .field > span { color: var(--muted); font-size: 12px; }
-input[type=text], input[type=password], select, textarea {
+input[type=text], input[type=password], input[type=number], input[type=url], select, textarea {
   width: 100%; padding: 6px 8px; border-radius: 7px; border: 1px solid var(--border);
   background: #0a0512; color: var(--fg); font: inherit;
 }
@@ -26,9 +27,11 @@ button {
   color: var(--fg); cursor: pointer; font: inherit;
 }
 button:hover { border-color: var(--purple); }
+button:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
 button.primary { width: 100%; margin-top: 6px; background: linear-gradient(135deg, #3a1268, #0f3a24); border-color: var(--purple); }
 button.primary:hover { box-shadow: 0 0 12px rgba(176, 77, 255, .5); }
 .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; margin: 12px 0; }
 .note { color: var(--muted); font-size: 12px; }
 .ok { color: var(--green); }
 .bad { color: #ff6b8b; }
+@media (prefers-reduced-motion: reduce) { #status { transition: none !important; } }

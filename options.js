@@ -72,7 +72,75 @@ function renderKeyState(v) {
   $('keyState').className = v.jevKeySet ? 'ok' : '';
 }
 
-chrome.storage.local.get(Object.assign({}, DEFAULTS, { jevKeySet: false, jevProvider: 'typesafe' }), (v) => {
+const DEFAULT_LOCAL_URL = 'http://127.0.0.1:8800/v1';
+let discoveryVersion = 0;
+let detectedModels = [];
+
+function localStatus(message) {
+  $('jevLocalStatus').textContent = message;
+  $('jevLocalStatus').hidden = !message;
+}
+
+function renderLocalModels() {
+  const select = $('jevLocalModel');
+  const selected = state.jevLocalModel || '';
+  select.innerHTML = '';
+  select.add(new Option('Choose model', ''));
+  for (const id of detectedModels) select.add(new Option(id, id));
+  if (selected && !detectedModels.includes(selected)) {
+    select.add(new Option(`${selected} (unavailable)`, selected));
+  }
+  select.value = selected;
+}
+
+async function refreshLocalModels() {
+  const version = ++discoveryVersion;
+  const url = $('jevLocalUrl').value.trim();
+  $('jevRefresh').disabled = true;
+  localStatus('Detecting models…');
+  const result = await new Promise(resolve => chrome.runtime.sendMessage(
+    { type: 'jev-models', baseUrl: url },
+    response => resolve(chrome.runtime.lastError
+      ? { ok: false, error: chrome.runtime.lastError.message }
+      : response || { ok: false, error: 'no_reply' }),
+  ));
+  if (version !== discoveryVersion || $('jevProvider').value !== 'local') return;
+  $('jevRefresh').disabled = false;
+  if (!result.ok) {
+    detectedModels = [];
+    renderLocalModels();
+    localStatus(`Discovery unavailable: ${result.error}. Saved selection unchanged.`);
+    return;
+  }
+  const previousUrl = state.jevLocalUrl || DEFAULT_LOCAL_URL;
+  if (url !== previousUrl) {
+    state.jevLocalUrl = url;
+    state.jevLocalModel = '';
+    set({ jevLocalUrl: url, jevLocalModel: '' });
+  }
+  detectedModels = result.models;
+  renderLocalModels();
+  if (state.jevLocalModel && !detectedModels.includes(state.jevLocalModel)) {
+    localStatus(`${state.jevLocalModel} unavailable · choose a model or refresh`);
+  } else {
+    localStatus(detectedModels.length
+      ? `${detectedModels.length} decision models available`
+      : 'No decision models available');
+  }
+}
+
+function updateProviderUI() {
+  const local = $('jevProvider').value === 'local';
+  $('jevLocalSettings').hidden = !local;
+  $('jevKeySection').hidden = local;
+  if (local) void refreshLocalModels();
+  else discoveryVersion++;
+}
+
+chrome.storage.local.get(Object.assign({}, DEFAULTS, {
+  jevKeySet: false, jevProvider: 'typesafe',
+  jevLocalUrl: DEFAULT_LOCAL_URL, jevLocalModel: '',
+}), (v) => {
   state = v;
   buildColorInputs();
   fillSkins();
@@ -86,6 +154,8 @@ chrome.storage.local.get(Object.assign({}, DEFAULTS, { jevKeySet: false, jevProv
   $('wrapRejects').checked = !!v.wrapRejects;
   $('useJev').checked = !!v.useJev;
   $('jevProvider').value = v.jevProvider;
+  $('jevLocalUrl').value = v.jevLocalUrl || DEFAULT_LOCAL_URL;
+  updateProviderUI();
   $('jevThreshold').value = v.jevThreshold; $('thV').textContent = (+v.jevThreshold).toFixed(2);
   renderKeyState(v);
 });
@@ -98,7 +168,23 @@ $('speed').addEventListener('input', () => { $('speedV').textContent = `${(+$('s
 $('showHud').addEventListener('change', () => set({ showHud: $('showHud').checked }));
 $('wrapRejects').addEventListener('change', () => set({ wrapRejects: $('wrapRejects').checked }));
 $('useJev').addEventListener('change', () => set({ useJev: $('useJev').checked }));
-$('jevProvider').addEventListener('change', () => set({ jevProvider: $('jevProvider').value }));
+$('jevProvider').addEventListener('change', () => {
+  state.jevProvider = $('jevProvider').value;
+  set({ jevProvider: state.jevProvider });
+  updateProviderUI();
+});
+$('jevRefresh').addEventListener('click', () => { void refreshLocalModels(); });
+$('jevLocalModel').addEventListener('change', () => {
+  state.jevLocalModel = $('jevLocalModel').value;
+  set({ jevLocalModel: state.jevLocalModel });
+  if (state.jevLocalModel && !detectedModels.includes(state.jevLocalModel)) {
+    localStatus(`${state.jevLocalModel} unavailable · choose a model or refresh`);
+  } else {
+    localStatus(detectedModels.length
+      ? `${detectedModels.length} decision models available`
+      : 'No decision models available');
+  }
+});
 $('jevThreshold').addEventListener('input', () => { $('thV').textContent = (+$('jevThreshold').value).toFixed(2); set({ jevThreshold: +$('jevThreshold').value }); });
 let huntTimer = null;
 $('hunt').addEventListener('input', () => {

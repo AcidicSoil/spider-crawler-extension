@@ -1,0 +1,2189 @@
+{
+  "schemaVersion": "ppm-project-standards/v1",
+  "project": {
+    "root": ".",
+    "stack": {
+      "signals": [
+        "design-doc",
+        "javascript",
+        "stylesheets",
+        "web-ui"
+      ],
+      "evidence": [
+        "DESIGN.md",
+        "background.js",
+        "content.js",
+        "options.html",
+        "options.js",
+        "popup.html",
+        "popup.js",
+        "server/app.mjs",
+        "server/dashboard.html",
+        "server/start.mjs",
+        "shared.js",
+        "tests/backend.test.mjs",
+        "tests/jev-local.test.mjs",
+        "tests/jev-settings.test.mjs",
+        "tests/popup-controls.test.mjs",
+        "tests/spider-coordinator.test.mjs",
+        "ui.css"
+      ],
+      "fingerprint": "62527702cc0429eb1669c58cd6382b41a4a6192948a51a9bcb8171b5e1bd285f"
+    }
+  },
+  "catalog": {
+    "source": "orchestkit",
+    "skills": [
+      {
+        "name": "accessibility",
+        "domain": "frontend",
+        "rules": 10
+      },
+      {
+        "name": "agent-orchestration",
+        "domain": "orchestration",
+        "rules": 4
+      },
+      {
+        "name": "ai-ui-generation",
+        "domain": "frontend",
+        "rules": 8
+      },
+      {
+        "name": "analytics",
+        "domain": "orchestration",
+        "rules": 5
+      },
+      {
+        "name": "animation-motion-design",
+        "domain": "frontend",
+        "rules": 6
+      },
+      {
+        "name": "api-design",
+        "domain": "backend",
+        "rules": 14
+      },
+      {
+        "name": "architecture-decision-record",
+        "domain": "architecture",
+        "rules": 3
+      },
+      {
+        "name": "architecture-patterns",
+        "domain": "architecture",
+        "rules": 13
+      },
+      {
+        "name": "assess",
+        "domain": "testing",
+        "rules": 2
+      },
+      {
+        "name": "async-jobs",
+        "domain": "backend",
+        "rules": 6
+      },
+      {
+        "name": "audit-activation",
+        "domain": "orchestration",
+        "rules": 2
+      },
+      {
+        "name": "audit-full",
+        "domain": "testing",
+        "rules": 2
+      },
+      {
+        "name": "auto",
+        "domain": "orchestration",
+        "rules": 0
+      },
+      {
+        "name": "bare-eval",
+        "domain": "orchestration",
+        "rules": 3
+      },
+      {
+        "name": "brainstorm",
+        "domain": "planning",
+        "rules": 4
+      },
+      {
+        "name": "browser-tools",
+        "domain": "orchestration",
+        "rules": 6
+      },
+      {
+        "name": "business-case",
+        "domain": "planning",
+        "rules": 2
+      },
+      {
+        "name": "careful",
+        "domain": "orchestration",
+        "rules": 0
+      },
+      {
+        "name": "chain-patterns",
+        "domain": "orchestration",
+        "rules": 4
+      },
+      {
+        "name": "ci-debug",
+        "domain": "platform",
+        "rules": 0
+      },
+      {
+        "name": "ci-sentinel",
+        "domain": "platform",
+        "rules": 0
+      },
+      {
+        "name": "code-review-playbook",
+        "domain": "testing",
+        "rules": 5
+      },
+      {
+        "name": "commit",
+        "domain": "delivery",
+        "rules": 9
+      },
+      {
+        "name": "competitive-analysis",
+        "domain": "planning",
+        "rules": 1
+      },
+      {
+        "name": "component-search",
+        "domain": "frontend",
+        "rules": 0
+      },
+      {
+        "name": "configure",
+        "domain": "orchestration",
+        "rules": 2
+      },
+      {
+        "name": "cover",
+        "domain": "testing",
+        "rules": 0
+      },
+      {
+        "name": "create-pr",
+        "domain": "delivery",
+        "rules": 6
+      },
+      {
+        "name": "database-patterns",
+        "domain": "backend",
+        "rules": 10
+      },
+      {
+        "name": "demo-producer",
+        "domain": "delivery",
+        "rules": 4
+      },
+      {
+        "name": "design-context-extract",
+        "domain": "frontend",
+        "rules": 0
+      },
+      {
+        "name": "design-import",
+        "domain": "frontend",
+        "rules": 0
+      },
+      {
+        "name": "design-ship",
+        "domain": "frontend",
+        "rules": 0
+      },
+      {
+        "name": "design-stylecards",
+        "domain": "frontend",
+        "rules": 0
+      },
+      {
+        "name": "design-system-tokens",
+        "domain": "frontend",
+        "rules": 8
+      },
+      {
+        "name": "design-to-code",
+        "domain": "frontend",
+        "rules": 1
+      },
+      {
+        "name": "dev",
+        "domain": "platform",
+        "rules": 4
+      },
+      {
+        "name": "devops-deployment",
+        "domain": "platform",
+        "rules": 6
+      },
+      {
+        "name": "distributed-systems",
+        "domain": "backend",
+        "rules": 11
+      },
+      {
+        "name": "doctor",
+        "domain": "orchestration",
+        "rules": 2
+      },
+      {
+        "name": "documentation-patterns",
+        "domain": "delivery",
+        "rules": 5
+      },
+      {
+        "name": "domain-driven-design",
+        "domain": "architecture",
+        "rules": 3
+      },
+      {
+        "name": "dream",
+        "domain": "orchestration",
+        "rules": 0
+      },
+      {
+        "name": "emulate-seed",
+        "domain": "testing",
+        "rules": 5
+      },
+      {
+        "name": "error-analysis",
+        "domain": "ai",
+        "rules": 0
+      },
+      {
+        "name": "errors",
+        "domain": "orchestration",
+        "rules": 2
+      },
+      {
+        "name": "expect",
+        "domain": "testing",
+        "rules": 5
+      },
+      {
+        "name": "explore",
+        "domain": "orchestration",
+        "rules": 5
+      },
+      {
+        "name": "figma-design-handoff",
+        "domain": "frontend",
+        "rules": 5
+      },
+      {
+        "name": "fix-issue",
+        "domain": "delivery",
+        "rules": 4
+      },
+      {
+        "name": "freeze",
+        "domain": "orchestration",
+        "rules": 0
+      },
+      {
+        "name": "github-operations",
+        "domain": "delivery",
+        "rules": 2
+      },
+      {
+        "name": "glyph",
+        "domain": "orchestration",
+        "rules": 4
+      },
+      {
+        "name": "golden-dataset",
+        "domain": "ai",
+        "rules": 6
+      },
+      {
+        "name": "help",
+        "domain": "orchestration",
+        "rules": 2
+      },
+      {
+        "name": "i18n-date-patterns",
+        "domain": "frontend",
+        "rules": 3
+      },
+      {
+        "name": "implement",
+        "domain": "delivery",
+        "rules": 6
+      },
+      {
+        "name": "interaction-patterns",
+        "domain": "frontend",
+        "rules": 10
+      },
+      {
+        "name": "issue-progress-tracking",
+        "domain": "delivery",
+        "rules": 2
+      },
+      {
+        "name": "json-render-catalog",
+        "domain": "frontend",
+        "rules": 3
+      },
+      {
+        "name": "langgraph",
+        "domain": "ai",
+        "rules": 41
+      },
+      {
+        "name": "llm-integration",
+        "domain": "ai",
+        "rules": 20
+      },
+      {
+        "name": "market-sizing",
+        "domain": "planning",
+        "rules": 1
+      },
+      {
+        "name": "mcp-patterns",
+        "domain": "ai",
+        "rules": 14
+      },
+      {
+        "name": "mcp-visual-output",
+        "domain": "ai",
+        "rules": 4
+      },
+      {
+        "name": "memory",
+        "domain": "orchestration",
+        "rules": 2
+      },
+      {
+        "name": "memory-fabric",
+        "domain": "orchestration",
+        "rules": 2
+      },
+      {
+        "name": "monitoring-observability",
+        "domain": "platform",
+        "rules": 5
+      },
+      {
+        "name": "multi-surface-render",
+        "domain": "frontend",
+        "rules": 5
+      },
+      {
+        "name": "multimodal-llm",
+        "domain": "ai",
+        "rules": 9
+      },
+      {
+        "name": "okr-design",
+        "domain": "planning",
+        "rules": 5
+      },
+      {
+        "name": "page-serve",
+        "domain": "platform",
+        "rules": 0
+      },
+      {
+        "name": "paired-probe",
+        "domain": "testing",
+        "rules": 0
+      },
+      {
+        "name": "performance",
+        "domain": "platform",
+        "rules": 23
+      },
+      {
+        "name": "portless",
+        "domain": "platform",
+        "rules": 0
+      },
+      {
+        "name": "prd-to-goal",
+        "domain": "planning",
+        "rules": 0
+      },
+      {
+        "name": "prioritization",
+        "domain": "planning",
+        "rules": 3
+      },
+      {
+        "name": "product-analytics",
+        "domain": "planning",
+        "rules": 3
+      },
+      {
+        "name": "product-frameworks",
+        "domain": "planning",
+        "rules": 18
+      },
+      {
+        "name": "prompt-focus",
+        "domain": "unclassified",
+        "rules": 0
+      },
+      {
+        "name": "python-backend",
+        "domain": "backend",
+        "rules": 12
+      },
+      {
+        "name": "quality-gates",
+        "domain": "testing",
+        "rules": 3
+      },
+      {
+        "name": "rag-retrieval",
+        "domain": "ai",
+        "rules": 30
+      },
+      {
+        "name": "react-server-components-framework",
+        "domain": "frontend",
+        "rules": 5
+      },
+      {
+        "name": "release-management",
+        "domain": "delivery",
+        "rules": 2
+      },
+      {
+        "name": "release-sync",
+        "domain": "delivery",
+        "rules": 0
+      },
+      {
+        "name": "remember",
+        "domain": "orchestration",
+        "rules": 3
+      },
+      {
+        "name": "responsive-patterns",
+        "domain": "frontend",
+        "rules": 10
+      },
+      {
+        "name": "review-pr",
+        "domain": "testing",
+        "rules": 3
+      },
+      {
+        "name": "scope-appropriate-architecture",
+        "domain": "architecture",
+        "rules": 3
+      },
+      {
+        "name": "security-patterns",
+        "domain": "security",
+        "rules": 6
+      },
+      {
+        "name": "setup",
+        "domain": "orchestration",
+        "rules": 5
+      },
+      {
+        "name": "storybook-mcp-integration",
+        "domain": "frontend",
+        "rules": 3
+      },
+      {
+        "name": "storybook-testing",
+        "domain": "frontend",
+        "rules": 7
+      },
+      {
+        "name": "swarm-migrate",
+        "domain": "delivery",
+        "rules": 0
+      },
+      {
+        "name": "task-dependency-patterns",
+        "domain": "orchestration",
+        "rules": 3
+      },
+      {
+        "name": "telemetry-inspect",
+        "domain": "orchestration",
+        "rules": 0
+      },
+      {
+        "name": "testing-e2e",
+        "domain": "testing",
+        "rules": 7
+      },
+      {
+        "name": "testing-integration",
+        "domain": "testing",
+        "rules": 8
+      },
+      {
+        "name": "testing-llm",
+        "domain": "testing",
+        "rules": 2
+      },
+      {
+        "name": "testing-perf",
+        "domain": "testing",
+        "rules": 6
+      },
+      {
+        "name": "testing-unit",
+        "domain": "testing",
+        "rules": 8
+      },
+      {
+        "name": "ui-components",
+        "domain": "frontend",
+        "rules": 15
+      },
+      {
+        "name": "user-research",
+        "domain": "planning",
+        "rules": 3
+      },
+      {
+        "name": "verify",
+        "domain": "testing",
+        "rules": 2
+      },
+      {
+        "name": "visualize-plan",
+        "domain": "planning",
+        "rules": 1
+      },
+      {
+        "name": "vite-advanced",
+        "domain": "frontend",
+        "rules": 4
+      },
+      {
+        "name": "web-research-workflow",
+        "domain": "planning",
+        "rules": 4
+      },
+      {
+        "name": "write-prd",
+        "domain": "planning",
+        "rules": 3
+      },
+      {
+        "name": "zustand-patterns",
+        "domain": "frontend",
+        "rules": 3
+      }
+    ],
+    "fingerprint": "0f3f41cab7acc75d7345cfb72f8aef12b01199cb8729be23a65903328b7a59ba"
+  },
+  "design": {
+    "expected": "required",
+    "path": "DESIGN.md",
+    "present": true,
+    "digest": "db6f09d3d76bbed63a9d7225d9b2234c054bfc9bb770c61c968c128df0aca0f5"
+  },
+  "assessments": {
+    "orchestkit:src/skills/api-design/SKILL.md": {
+      "domain": "backend",
+      "kind": "skill",
+      "sourceDigest": "c04a170d59cfa09f8c280b690476a02544b0092968f78d962dd883a2712b4080",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/api-design/rules/errors-agent-facing.md": {
+      "domain": "backend",
+      "kind": "rule",
+      "sourceDigest": "bea5b3f8f1a8471e07cc59b265e526fbbb65ff65ec26ab9c842eab368c5b120f",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/api-design/rules/framework-openapi.md": {
+      "domain": "backend",
+      "kind": "rule",
+      "sourceDigest": "17c770ef2dd178d9ffd516b6348a125be8d1a6be58e4cf421f3e6139d63dd2a3",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/api-design/rules/framework-resource-modeling.md": {
+      "domain": "backend",
+      "kind": "rule",
+      "sourceDigest": "759ca8ffaeda257c4f688d69293b85f3da6381ac59f65ff4245be774fda9dace",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/api-design/rules/framework-rest-conventions.md": {
+      "domain": "backend",
+      "kind": "rule",
+      "sourceDigest": "0fb10740febaeb188145ec5cbf502c02e443ab25e9f8f72d110aa9dd35dc4bca",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/api-design/rules/graphql-schema.md": {
+      "domain": "backend",
+      "kind": "rule",
+      "sourceDigest": "41e2f5084ecff2b1431b111290ccf2ec34c032b43783c8505c39f2f5fc9192a8",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/api-design/rules/graphql-strawberry.md": {
+      "domain": "backend",
+      "kind": "rule",
+      "sourceDigest": "d885d9131441dca3d1c71b070c836f84c28348f3532755f5308b6a5056ca498e",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/api-design/rules/grpc-service.md": {
+      "domain": "backend",
+      "kind": "rule",
+      "sourceDigest": "457dd8116e34cab0c4ce4294dee83430456d347897c256e79b0a8541b5ee7be3",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/api-design/rules/grpc-streaming.md": {
+      "domain": "backend",
+      "kind": "rule",
+      "sourceDigest": "72e2a88f04d8bb2f68315583ee78662272225da6d0e795dd954e1f2d4bc14369",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/api-design/rules/messaging-integrations.md": {
+      "domain": "backend",
+      "kind": "rule",
+      "sourceDigest": "546a28d326166efc847461b5eb362d11b88cf2e2b477447a1baa1ff06cb3fdb8",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/api-design/rules/payload-cms.md": {
+      "domain": "backend",
+      "kind": "rule",
+      "sourceDigest": "bd8fd012101646251ff02586eade0a05dfa0b8ed6788653129f8af9c6052a6d0",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/api-design/rules/streaming-sse.md": {
+      "domain": "backend",
+      "kind": "rule",
+      "sourceDigest": "619458cf4e8fd798e3273cf605e1fd85884db385b4e3358e07c1a1479670094d",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/api-design/rules/streaming-websocket.md": {
+      "domain": "backend",
+      "kind": "rule",
+      "sourceDigest": "2ca380235dd36cfc50bf14d60219dc2dc98e6784dfded0d9a6db0724a7bb4f0d",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/api-design/rules/versioning-header.md": {
+      "domain": "backend",
+      "kind": "rule",
+      "sourceDigest": "8e3f8ff65f96cefda3f2b4ff8b726637aed4621377134534826d9c22d77fe360",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/api-design/rules/versioning-url-path.md": {
+      "domain": "backend",
+      "kind": "rule",
+      "sourceDigest": "6ab629916ea34d1bddf001f918304573efeb94ec95d22119ce4a74c7419115e3",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/architecture-patterns/SKILL.md": {
+      "domain": "architecture",
+      "kind": "skill",
+      "sourceDigest": "6e1685b6b15fbd768b07eacb821c3ef3ad41ae74adc83268059bffca3318779d",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/architecture-patterns/rules/backend-di.md": {
+      "domain": "architecture",
+      "kind": "rule",
+      "sourceDigest": "a9618226be02a4fca175bbdc12680451191a0623971d623f0444907c88c5b674",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/architecture-patterns/rules/backend-layers.md": {
+      "domain": "architecture",
+      "kind": "rule",
+      "sourceDigest": "0ca1bfbd91986e16fd908e61c487ef9ef33edeee6af41bde7c027e2458580e1c",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/architecture-patterns/rules/backend-repository.md": {
+      "domain": "architecture",
+      "kind": "rule",
+      "sourceDigest": "55c8bd0235aa3557bac0d74632c79b6e7b8ef0dbab611f87dd298a7ed0c161db",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/architecture-patterns/rules/clean-dependency-rule.md": {
+      "domain": "architecture",
+      "kind": "rule",
+      "sourceDigest": "156e6846d82feacd4bb72e2d9e38e6d620791bfb03b776a4a490b5694bf0970c",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/architecture-patterns/rules/clean-hexagonal.md": {
+      "domain": "architecture",
+      "kind": "rule",
+      "sourceDigest": "0db7cc35b489e9fab34df71016917fef86f19445066888b00eaab99ceef8a9b6",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/architecture-patterns/rules/clean-ports-adapters.md": {
+      "domain": "architecture",
+      "kind": "rule",
+      "sourceDigest": "e51157cefedfeccfa8f923c068b6efbab0845450461481b15f35d2e941aa3635",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/architecture-patterns/rules/right-sizing-decision.md": {
+      "domain": "architecture",
+      "kind": "rule",
+      "sourceDigest": "60c5962b8e7c7eff28f2c6fdff84c161fb90342bdb40591e7e17218f38052966",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/architecture-patterns/rules/right-sizing-tiers.md": {
+      "domain": "architecture",
+      "kind": "rule",
+      "sourceDigest": "13ef1f9ae603f1620e30c7c2a356431b313ab80303b961afd48ac40f0c497dd5",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/architecture-patterns/rules/structure-conventions.md": {
+      "domain": "architecture",
+      "kind": "rule",
+      "sourceDigest": "c313ff69f536354fcb6e7cc26881e811d6343c7b56c174c903acdf57951bc0b9",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/architecture-patterns/rules/structure-folders.md": {
+      "domain": "architecture",
+      "kind": "rule",
+      "sourceDigest": "d0ee0f67a3cd829e24d106db3b9be1797ea2389cbba5833999d161fd8da3ced7",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/architecture-patterns/rules/testing-aaa.md": {
+      "domain": "architecture",
+      "kind": "rule",
+      "sourceDigest": "4173a7759afb2975089fe510f3504afcbe046bdd043e3a2864858f3b7aedfeae",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/architecture-patterns/rules/testing-coverage.md": {
+      "domain": "architecture",
+      "kind": "rule",
+      "sourceDigest": "cad56eeb736a6cd9512b998d5c898c4d33757f4c1b9c0fc908d5ca961bb78cd8",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/architecture-patterns/rules/testing-naming.md": {
+      "domain": "architecture",
+      "kind": "rule",
+      "sourceDigest": "9724d54601dcaf11a88625fa6bdccb96fbad5fa9147c19556d0ebe6764baf135",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/design-system-tokens/SKILL.md": {
+      "domain": "frontend",
+      "kind": "skill",
+      "sourceDigest": "cb5425acb681ae335316e1a291b6420b0116d72371a30e53935cd424916a89e5",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/design-system-tokens/rules/tokens-contrast-enforcement.md": {
+      "domain": "frontend",
+      "kind": "rule",
+      "sourceDigest": "24f75facfbaba59c71ebe90cd63fc8a5fa728fb0a9167b15a0229cd1fada0b29",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/design-system-tokens/rules/tokens-oklch-color.md": {
+      "domain": "frontend",
+      "kind": "rule",
+      "sourceDigest": "c4aee4980ab0972f2208cc03a0c69396db9430ab2bd20c96d0c4e2cdd312942b",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/design-system-tokens/rules/tokens-spacing-depth.md": {
+      "domain": "frontend",
+      "kind": "rule",
+      "sourceDigest": "85d4aa553593cd839e64476849460ab4a8994ead8d4ee1ed26c3f3de2468860a",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/design-system-tokens/rules/tokens-style-dictionary.md": {
+      "domain": "frontend",
+      "kind": "rule",
+      "sourceDigest": "caa5e9f70472aabbd325ddfd64b21c3e685004a212d16a31f656a28a76a88f3e",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/design-system-tokens/rules/tokens-theming-darkmode.md": {
+      "domain": "frontend",
+      "kind": "rule",
+      "sourceDigest": "6b1ef378fdd334d7be814e4493cbccc6162acd76427e17b2f3013b6c9e3523f6",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/design-system-tokens/rules/tokens-three-tier.md": {
+      "domain": "frontend",
+      "kind": "rule",
+      "sourceDigest": "c324e104f0302c58fdf092abd48e89e24d110fc0cf8dc8d2ab2e565cba06a477",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/design-system-tokens/rules/tokens-versioning.md": {
+      "domain": "frontend",
+      "kind": "rule",
+      "sourceDigest": "b5c50728753bc3da7d92218ed5d3c344e7aa9259ef225eb1ed43cedc68f4ce90",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/design-system-tokens/rules/tokens-w3c-format.md": {
+      "domain": "frontend",
+      "kind": "rule",
+      "sourceDigest": "e1719e26fb8822e73d80c97225d41e2ecf278daa18a816d13304937f82b6ae15",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/python-backend/SKILL.md": {
+      "domain": "backend",
+      "kind": "skill",
+      "sourceDigest": "04fbcbed95781dcf331412f7a93ded2057e6cb49a11aa34ad5758bc9393b9e91",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/python-backend/rules/asyncio-cancellation.md": {
+      "domain": "backend",
+      "kind": "rule",
+      "sourceDigest": "0e2795586c204b97cae286b1f09217037fc865078419122a2be34383b844d32a",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/python-backend/rules/asyncio-structured.md": {
+      "domain": "backend",
+      "kind": "rule",
+      "sourceDigest": "013c74c146054a8d1836aa433db5f4c9d98ead523b45432652de740f47214949",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/python-backend/rules/asyncio-taskgroup.md": {
+      "domain": "backend",
+      "kind": "rule",
+      "sourceDigest": "65917902e8f47032fdf2f4ab41dc3e8c3dd32518b47edfaa952f4c8eb9d22a30",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/python-backend/rules/fastapi-background.md": {
+      "domain": "backend",
+      "kind": "rule",
+      "sourceDigest": "45e2b533056ac166ae0d07758db5aa49187cbcaefca14d20283220f5235e0b77",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/python-backend/rules/fastapi-dependencies.md": {
+      "domain": "backend",
+      "kind": "rule",
+      "sourceDigest": "646fa277d1879b892036926699e479c20674cb936b58cb1bf6c1da7640962345",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/python-backend/rules/fastapi-middleware.md": {
+      "domain": "backend",
+      "kind": "rule",
+      "sourceDigest": "1262e37b24381eef8622f541ccc01e67096f0f63e2a8b540d7b9f81fc146fc6c",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/python-backend/rules/pooling-database.md": {
+      "domain": "backend",
+      "kind": "rule",
+      "sourceDigest": "6aeae6b2a2a867953eec66c17f3209fbefe592296267d0543c695e4a54d99a08",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/python-backend/rules/pooling-http.md": {
+      "domain": "backend",
+      "kind": "rule",
+      "sourceDigest": "4232fc509662a83162ae8de9c0242b79152835030ee99505783acbe65f3d49ac",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/python-backend/rules/pooling-tuning.md": {
+      "domain": "backend",
+      "kind": "rule",
+      "sourceDigest": "b40034304e63cf3ad1589338d169687e77046a37dbd15a56744faefec758858a",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/python-backend/rules/sqlalchemy-migrations.md": {
+      "domain": "backend",
+      "kind": "rule",
+      "sourceDigest": "957490dade5103cb91aa8a8110691aca96768518da6a8ada2552d3aa8dbfd155",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/python-backend/rules/sqlalchemy-relationships.md": {
+      "domain": "backend",
+      "kind": "rule",
+      "sourceDigest": "3fb91b9c9a9f729a01cba03b78ec126aea41494db6a4a763c8b754e416e05f83",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/python-backend/rules/sqlalchemy-sessions.md": {
+      "domain": "backend",
+      "kind": "rule",
+      "sourceDigest": "b4c39c3f363069e28a2735be3a0cffd22572fe3293218d0c15384985b16ce301",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/react-server-components-framework/SKILL.md": {
+      "domain": "frontend",
+      "kind": "skill",
+      "sourceDigest": "32bdb84463eaa633b1bac8827b9512ca2662845de7715e7bbc5dfb0ff3622f72",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/react-server-components-framework/rules/rsc-cache-safety.md": {
+      "domain": "frontend",
+      "kind": "rule",
+      "sourceDigest": "ea06542a9f0b8b40283bfa5e1e5825355e3d17aa46b390f85b77daa519026e81",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/react-server-components-framework/rules/rsc-client-boundaries.md": {
+      "domain": "frontend",
+      "kind": "rule",
+      "sourceDigest": "a66e97164cf714e337ef5d1e9d09e7bcd2bf9077ec63823a289b43d6a4b9f010",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/react-server-components-framework/rules/rsc-component-types.md": {
+      "domain": "frontend",
+      "kind": "rule",
+      "sourceDigest": "35966de421427a429b7b1d5747137425e611d603a32c9174f37d42d2321d12fd",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/react-server-components-framework/rules/rsc-hydration.md": {
+      "domain": "frontend",
+      "kind": "rule",
+      "sourceDigest": "69970ae1aa32546149236dbdfc66677846fcb3d12c60c8c04d864896a6fa0c7f",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/react-server-components-framework/rules/rsc-serialization.md": {
+      "domain": "frontend",
+      "kind": "rule",
+      "sourceDigest": "85d29448b65432f26e36cd23e14c8369084bdcdcfac85b4f4024efd545ff8c50",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/responsive-patterns/SKILL.md": {
+      "domain": "frontend",
+      "kind": "skill",
+      "sourceDigest": "b252ad9fc24ef8551a587ef4799daab6f169232f04056b3d24788dd8bb10a9c6",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/responsive-patterns/rules/animation-motion.md": {
+      "domain": "frontend",
+      "kind": "rule",
+      "sourceDigest": "c3337ce6c05d34d581649eaf1d4c9c8120e921d50df968795960c00015bc02a5",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/responsive-patterns/rules/animation-scroll.md": {
+      "domain": "frontend",
+      "kind": "rule",
+      "sourceDigest": "50c3008c744ec0c7036c77612b912c21eb86722a6eeb0665de038bafc534fc8d",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/responsive-patterns/rules/css-intrinsic-responsive.md": {
+      "domain": "frontend",
+      "kind": "rule",
+      "sourceDigest": "24881032ffa48a5a116162dcb2b8cc0ac5100e4f434e1c4dfae1c48942dc10d4",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/responsive-patterns/rules/css-patterns.md": {
+      "domain": "frontend",
+      "kind": "rule",
+      "sourceDigest": "935dada6ad4ee2a8f30a6233c534a6a52dfb79cc17524b2540850e073b6e9763",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/responsive-patterns/rules/css-subgrid.md": {
+      "domain": "frontend",
+      "kind": "rule",
+      "sourceDigest": "35ddf68ba3dd9a77811bfe57eb65bb757a4b16f5b652a57b793183e3ebda4787",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/responsive-patterns/rules/pwa-offline.md": {
+      "domain": "frontend",
+      "kind": "rule",
+      "sourceDigest": "e6388c6fe1a46f202abe045d62b54293d1c9590c2b55b692b36e1cca43b55879",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/responsive-patterns/rules/pwa-service-worker.md": {
+      "domain": "frontend",
+      "kind": "rule",
+      "sourceDigest": "84cce32cba285ade978b64b240081ed4889198c297c17d0ee5206f1f8d8051ca",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/responsive-patterns/rules/react-patterns.md": {
+      "domain": "frontend",
+      "kind": "rule",
+      "sourceDigest": "7d3c7462d1aec6e67644dcf0422907db76886fc17de637947b94af6cb34eabef",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/responsive-patterns/rules/responsive-foldables.md": {
+      "domain": "frontend",
+      "kind": "rule",
+      "sourceDigest": "2231e847574012f64b856b55db89e104892c747c327eae2e26d7fda56f2c9074",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/responsive-patterns/rules/touch-interaction.md": {
+      "domain": "frontend",
+      "kind": "rule",
+      "sourceDigest": "be8c3f6a0e05825e9f4e578701d498c66c6218289811f9f9b31580753b1fb279",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/testing-e2e/SKILL.md": {
+      "domain": "testing",
+      "kind": "skill",
+      "sourceDigest": "944760bf5e51df3fe5dbce6d399229f4b354db40c1334e0c39ff6785fbea8777",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/testing-e2e/rules/a11y-playwright.md": {
+      "domain": "testing",
+      "kind": "rule",
+      "sourceDigest": "d4e9a14194d181234bc831c300010dc104e0a3d872effdbc122e7eaef36a091b",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/testing-e2e/rules/a11y-testing.md": {
+      "domain": "testing",
+      "kind": "rule",
+      "sourceDigest": "728577d0972322e11150fac11ae20ee8c7d8d1895c182b9a7c9100317e217651",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/testing-e2e/rules/e2e-ai-agents.md": {
+      "domain": "testing",
+      "kind": "rule",
+      "sourceDigest": "81245ebd749d9835ce9e336ac9334a6832f5567aea8ede2b99eecc7d17d1c598",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/testing-e2e/rules/e2e-page-objects.md": {
+      "domain": "testing",
+      "kind": "rule",
+      "sourceDigest": "250b13613c854988e6f7c0df8c758164053f1d08b5721e7e142150fad85cce79",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/testing-e2e/rules/e2e-playwright.md": {
+      "domain": "testing",
+      "kind": "rule",
+      "sourceDigest": "200ea1d375997967b1b0220b7fb2c1c847be0dc1a8f39c1ea3b01ee5d69fccee",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/testing-e2e/rules/emulate-e2e.md": {
+      "domain": "testing",
+      "kind": "rule",
+      "sourceDigest": "a5df75c7cbfcd432824ecc5cc33723048f785f939e79ca5e94dc94f267a0c060",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/testing-e2e/rules/validation-end-to-end.md": {
+      "domain": "testing",
+      "kind": "rule",
+      "sourceDigest": "8eb90c97571f7f52bba28809894d5fba80116fa747c918a3057e81ce224b34c2",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/testing-integration/SKILL.md": {
+      "domain": "testing",
+      "kind": "skill",
+      "sourceDigest": "a4fda123f1ed18dbfa1959a517d0852602b1ca6caa6faa24ede176ab4e5bbf6a",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/testing-integration/rules/emulate-stateful-testing.md": {
+      "domain": "testing",
+      "kind": "rule",
+      "sourceDigest": "9c7e1e487a3340dfe5639fd9f6d810f87fac6ce5e2987a8374fcbd554436493f",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/testing-integration/rules/integration-api.md": {
+      "domain": "testing",
+      "kind": "rule",
+      "sourceDigest": "b924dc7c421d92ffee1eb76f886042fef096f7f06ece60e20394ee83fe0a08c4",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/testing-integration/rules/integration-component.md": {
+      "domain": "testing",
+      "kind": "rule",
+      "sourceDigest": "a469c935902d156243b04ebb90f43e2b68ba39b98c3d500928688a20b9dff63e",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/testing-integration/rules/integration-database.md": {
+      "domain": "testing",
+      "kind": "rule",
+      "sourceDigest": "cb5400fc9f131dec0e9c8e346f04437ee86d14b9cf99a7a6a7a89e68dfa4ccfc",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/testing-integration/rules/validation-zod-schema.md": {
+      "domain": "testing",
+      "kind": "rule",
+      "sourceDigest": "54dc0b302696ef71b9f3ea8a91a9e575c7861acb1b0c3e1007ddc22ca4acd5c6",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/testing-integration/rules/verification-contract.md": {
+      "domain": "testing",
+      "kind": "rule",
+      "sourceDigest": "3c745ac18ab2875f51b9f0b05c36f50d94fa1fc78902a18361fb5b4cf4ddf565",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/testing-integration/rules/verification-stateful.md": {
+      "domain": "testing",
+      "kind": "rule",
+      "sourceDigest": "b1caaa32245a45c7769f7fbefa0fe9f6cfe903b3a05fb319a5dde03212038f98",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/testing-integration/rules/verification-techniques.md": {
+      "domain": "testing",
+      "kind": "rule",
+      "sourceDigest": "f3edde809172f6a3f100d1ae41f000e95da215ac99608178404d294e823278d7",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/testing-unit/SKILL.md": {
+      "domain": "testing",
+      "kind": "skill",
+      "sourceDigest": "658191e6f7b76a1295d1cac98a599796dc61e30833a61b114e563e150338e15f",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/testing-unit/rules/data-factories.md": {
+      "domain": "testing",
+      "kind": "rule",
+      "sourceDigest": "3b31f8f659c9d936991517b61ba517dc642b949850eb0c86ada60be442fb5630",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/testing-unit/rules/data-fixtures.md": {
+      "domain": "testing",
+      "kind": "rule",
+      "sourceDigest": "7603ca0be195c50feec02eca3f33e5019d7533f7a0deb62b0341a6217d2823bb",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/testing-unit/rules/data-seeding-cleanup.md": {
+      "domain": "testing",
+      "kind": "rule",
+      "sourceDigest": "31787de2a080593e3caa7635b384861fb2b0e4ec5c08bf60804ad7fb12e52de4",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/testing-unit/rules/mocking-msw.md": {
+      "domain": "testing",
+      "kind": "rule",
+      "sourceDigest": "27e3fbb7d6388b805c3d5b9b9c0e0f20be442f1e3c74c89591eb151cbb9e5cad",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/testing-unit/rules/mocking-vcr.md": {
+      "domain": "testing",
+      "kind": "rule",
+      "sourceDigest": "43d256cc696c679cc1379c7391e1c5c85b64ad8ef48f331068eae9373068cea9",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/testing-unit/rules/unit-aaa-pattern.md": {
+      "domain": "testing",
+      "kind": "rule",
+      "sourceDigest": "38e5ff387640dc4db51d8b07cd58850bf181bcab329dc346722550992b32b0b2",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/testing-unit/rules/unit-fixture-scoping.md": {
+      "domain": "testing",
+      "kind": "rule",
+      "sourceDigest": "bbd834bcfe3337ab9a8559e88611d6e7d9851301886246c21f0e10de59d99a6d",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "orchestkit:src/skills/testing-unit/rules/unit-parametrized.md": {
+      "domain": "testing",
+      "kind": "rule",
+      "sourceDigest": "b680b5130b00cb124352fdc74be681ec6752d6df50d8f6e5ff0fe7f2a18cc075",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "likely-relevant"
+    },
+    "policy:anti-slop-bundle": {
+      "domain": "tooling",
+      "kind": "policy",
+      "sourceDigest": "07ab0a2de101f9e1d847553c8d5dd2b638fc8477ce0d1ecf04d4d8a879545cdf",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "candidate"
+    },
+    "policy:anti-slop-css": {
+      "domain": "tooling",
+      "kind": "policy",
+      "sourceDigest": "2d17061f0e7d74f6161450d043f3637520802dc806e01a98fb5f4b7cd60093ab",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "candidate"
+    },
+    "policy:anti-slop-typescript": {
+      "domain": "tooling",
+      "kind": "policy",
+      "sourceDigest": "013e5ccc451204864f99e81ff9e9a1b39ee912d230597b642d72727601979c90",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "review-compatibility"
+    },
+    "policy:css-architecture": {
+      "domain": "frontend",
+      "kind": "policy",
+      "sourceDigest": "fc165c5a55f65d4df44e912de5ce42f4e750b2ff58bb21671cf29038300227aa",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "candidate"
+    },
+    "policy:dependency-cruiser": {
+      "domain": "tooling",
+      "kind": "policy",
+      "sourceDigest": "ae876e535a88d93abab51c52ab1cad4677b45c83f6aac169ac70d8333be2ef30",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "candidate"
+    },
+    "policy:design-document": {
+      "domain": "frontend",
+      "kind": "policy",
+      "sourceDigest": "6150b598535a5e5a5a207fca10301d94ecfeb68cf3af1b8f40d723fe7381ac44",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "candidate"
+    },
+    "policy:import-paths": {
+      "domain": "tooling",
+      "kind": "policy",
+      "sourceDigest": "b2cbe9e6c73e8d2ab0bdffd46a589704089a64b8f9f333d55f7a477c51b67550",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "candidate"
+    },
+    "policy:stylelint": {
+      "domain": "tooling",
+      "kind": "policy",
+      "sourceDigest": "c7aaa280ea33eb0f43640bee68ada8b62d0818e98c27f7aefe0850acfce6b66d",
+      "applicability": "review-required",
+      "compliance": "unevaluated",
+      "reason": "",
+      "evidence": [],
+      "evidenceDigests": {},
+      "stackFingerprint": "",
+      "reviewedSourceDigest": "",
+      "candidate": "candidate"
+    }
+  },
+  "findings": [],
+  "proposals": [],
+  "updatedAt": "2026-11-04T21:40:31+00:00",
+  "featureMap": {
+    "schemaVersion": "ppm-feature-work-map/v1",
+    "objective": "Local System One discovery of installed decision models, explicit persisted selection, keyless inference, remote provider preservation",
+    "mode": "targeted",
+    "features": [
+      "backend-api",
+      "frontend-architecture",
+      "testing",
+      "visual-styling"
+    ],
+    "dependencies": [],
+    "paths": [
+      "background.js",
+      "content.js",
+      "manifest.json",
+      "options.html",
+      "options.js",
+      "popup.js",
+      "ui.css",
+      "README.md"
+    ],
+    "questions": [],
+    "featureRules": {
+      "backend-api": [
+        "orchestkit:src/skills/api-design/SKILL.md",
+        "orchestkit:src/skills/api-design/rules/errors-agent-facing.md",
+        "orchestkit:src/skills/api-design/rules/framework-openapi.md",
+        "orchestkit:src/skills/api-design/rules/framework-resource-modeling.md",
+        "orchestkit:src/skills/api-design/rules/framework-rest-conventions.md",
+        "orchestkit:src/skills/api-design/rules/graphql-schema.md",
+        "orchestkit:src/skills/api-design/rules/graphql-strawberry.md",
+        "orchestkit:src/skills/api-design/rules/grpc-service.md",
+        "orchestkit:src/skills/api-design/rules/grpc-streaming.md",
+        "orchestkit:src/skills/api-design/rules/messaging-integrations.md",
+        "orchestkit:src/skills/api-design/rules/payload-cms.md",
+        "orchestkit:src/skills/api-design/rules/streaming-sse.md",
+        "orchestkit:src/skills/api-design/rules/streaming-websocket.md",
+        "orchestkit:src/skills/api-design/rules/versioning-header.md",
+        "orchestkit:src/skills/api-design/rules/versioning-url-path.md",
+        "orchestkit:src/skills/python-backend/SKILL.md",
+        "orchestkit:src/skills/python-backend/rules/asyncio-cancellation.md",
+        "orchestkit:src/skills/python-backend/rules/asyncio-structured.md",
+        "orchestkit:src/skills/python-backend/rules/asyncio-taskgroup.md",
+        "orchestkit:src/skills/python-backend/rules/fastapi-background.md",
+        "orchestkit:src/skills/python-backend/rules/fastapi-dependencies.md",
+        "orchestkit:src/skills/python-backend/rules/fastapi-middleware.md",
+        "orchestkit:src/skills/python-backend/rules/pooling-database.md",
+        "orchestkit:src/skills/python-backend/rules/pooling-http.md",
+        "orchestkit:src/skills/python-backend/rules/pooling-tuning.md",
+        "orchestkit:src/skills/python-backend/rules/sqlalchemy-migrations.md",
+        "orchestkit:src/skills/python-backend/rules/sqlalchemy-relationships.md",
+        "orchestkit:src/skills/python-backend/rules/sqlalchemy-sessions.md"
+      ],
+      "frontend-architecture": [
+        "orchestkit:src/skills/architecture-patterns/SKILL.md",
+        "orchestkit:src/skills/architecture-patterns/rules/backend-di.md",
+        "orchestkit:src/skills/architecture-patterns/rules/backend-layers.md",
+        "orchestkit:src/skills/architecture-patterns/rules/backend-repository.md",
+        "orchestkit:src/skills/architecture-patterns/rules/clean-dependency-rule.md",
+        "orchestkit:src/skills/architecture-patterns/rules/clean-hexagonal.md",
+        "orchestkit:src/skills/architecture-patterns/rules/clean-ports-adapters.md",
+        "orchestkit:src/skills/architecture-patterns/rules/right-sizing-decision.md",
+        "orchestkit:src/skills/architecture-patterns/rules/right-sizing-tiers.md",
+        "orchestkit:src/skills/architecture-patterns/rules/structure-conventions.md",
+        "orchestkit:src/skills/architecture-patterns/rules/structure-folders.md",
+        "orchestkit:src/skills/architecture-patterns/rules/testing-aaa.md",
+        "orchestkit:src/skills/architecture-patterns/rules/testing-coverage.md",
+        "orchestkit:src/skills/architecture-patterns/rules/testing-naming.md",
+        "orchestkit:src/skills/react-server-components-framework/SKILL.md",
+        "orchestkit:src/skills/react-server-components-framework/rules/rsc-cache-safety.md",
+        "orchestkit:src/skills/react-server-components-framework/rules/rsc-client-boundaries.md",
+        "orchestkit:src/skills/react-server-components-framework/rules/rsc-component-types.md",
+        "orchestkit:src/skills/react-server-components-framework/rules/rsc-hydration.md",
+        "orchestkit:src/skills/react-server-components-framework/rules/rsc-serialization.md",
+        "policy:anti-slop-bundle",
+        "policy:anti-slop-typescript",
+        "policy:dependency-cruiser",
+        "policy:import-paths"
+      ],
+      "testing": [
+        "orchestkit:src/skills/testing-e2e/SKILL.md",
+        "orchestkit:src/skills/testing-e2e/rules/a11y-playwright.md",
+        "orchestkit:src/skills/testing-e2e/rules/a11y-testing.md",
+        "orchestkit:src/skills/testing-e2e/rules/e2e-ai-agents.md",
+        "orchestkit:src/skills/testing-e2e/rules/e2e-page-objects.md",
+        "orchestkit:src/skills/testing-e2e/rules/e2e-playwright.md",
+        "orchestkit:src/skills/testing-e2e/rules/emulate-e2e.md",
+        "orchestkit:src/skills/testing-e2e/rules/validation-end-to-end.md",
+        "orchestkit:src/skills/testing-integration/SKILL.md",
+        "orchestkit:src/skills/testing-integration/rules/emulate-stateful-testing.md",
+        "orchestkit:src/skills/testing-integration/rules/integration-api.md",
+        "orchestkit:src/skills/testing-integration/rules/integration-component.md",
+        "orchestkit:src/skills/testing-integration/rules/integration-database.md",
+        "orchestkit:src/skills/testing-integration/rules/validation-zod-schema.md",
+        "orchestkit:src/skills/testing-integration/rules/verification-contract.md",
+        "orchestkit:src/skills/testing-integration/rules/verification-stateful.md",
+        "orchestkit:src/skills/testing-integration/rules/verification-techniques.md",
+        "orchestkit:src/skills/testing-unit/SKILL.md",
+        "orchestkit:src/skills/testing-unit/rules/data-factories.md",
+        "orchestkit:src/skills/testing-unit/rules/data-fixtures.md",
+        "orchestkit:src/skills/testing-unit/rules/data-seeding-cleanup.md",
+        "orchestkit:src/skills/testing-unit/rules/mocking-msw.md",
+        "orchestkit:src/skills/testing-unit/rules/mocking-vcr.md",
+        "orchestkit:src/skills/testing-unit/rules/unit-aaa-pattern.md",
+        "orchestkit:src/skills/testing-unit/rules/unit-fixture-scoping.md",
+        "orchestkit:src/skills/testing-unit/rules/unit-parametrized.md"
+      ],
+      "visual-styling": [
+        "orchestkit:src/skills/design-system-tokens/SKILL.md",
+        "orchestkit:src/skills/design-system-tokens/rules/tokens-contrast-enforcement.md",
+        "orchestkit:src/skills/design-system-tokens/rules/tokens-oklch-color.md",
+        "orchestkit:src/skills/design-system-tokens/rules/tokens-spacing-depth.md",
+        "orchestkit:src/skills/design-system-tokens/rules/tokens-style-dictionary.md",
+        "orchestkit:src/skills/design-system-tokens/rules/tokens-theming-darkmode.md",
+        "orchestkit:src/skills/design-system-tokens/rules/tokens-three-tier.md",
+        "orchestkit:src/skills/design-system-tokens/rules/tokens-versioning.md",
+        "orchestkit:src/skills/design-system-tokens/rules/tokens-w3c-format.md",
+        "orchestkit:src/skills/responsive-patterns/SKILL.md",
+        "orchestkit:src/skills/responsive-patterns/rules/animation-motion.md",
+        "orchestkit:src/skills/responsive-patterns/rules/animation-scroll.md",
+        "orchestkit:src/skills/responsive-patterns/rules/css-intrinsic-responsive.md",
+        "orchestkit:src/skills/responsive-patterns/rules/css-patterns.md",
+        "orchestkit:src/skills/responsive-patterns/rules/css-subgrid.md",
+        "orchestkit:src/skills/responsive-patterns/rules/pwa-offline.md",
+        "orchestkit:src/skills/responsive-patterns/rules/pwa-service-worker.md",
+        "orchestkit:src/skills/responsive-patterns/rules/react-patterns.md",
+        "orchestkit:src/skills/responsive-patterns/rules/responsive-foldables.md",
+        "orchestkit:src/skills/responsive-patterns/rules/touch-interaction.md",
+        "policy:anti-slop-bundle",
+        "policy:anti-slop-css",
+        "policy:css-architecture",
+        "policy:design-document",
+        "policy:stylelint"
+      ]
+    },
+    "ruleIds": [
+      "orchestkit:src/skills/api-design/SKILL.md",
+      "orchestkit:src/skills/api-design/rules/errors-agent-facing.md",
+      "orchestkit:src/skills/api-design/rules/framework-openapi.md",
+      "orchestkit:src/skills/api-design/rules/framework-resource-modeling.md",
+      "orchestkit:src/skills/api-design/rules/framework-rest-conventions.md",
+      "orchestkit:src/skills/api-design/rules/graphql-schema.md",
+      "orchestkit:src/skills/api-design/rules/graphql-strawberry.md",
+      "orchestkit:src/skills/api-design/rules/grpc-service.md",
+      "orchestkit:src/skills/api-design/rules/grpc-streaming.md",
+      "orchestkit:src/skills/api-design/rules/messaging-integrations.md",
+      "orchestkit:src/skills/api-design/rules/payload-cms.md",
+      "orchestkit:src/skills/api-design/rules/streaming-sse.md",
+      "orchestkit:src/skills/api-design/rules/streaming-websocket.md",
+      "orchestkit:src/skills/api-design/rules/versioning-header.md",
+      "orchestkit:src/skills/api-design/rules/versioning-url-path.md",
+      "orchestkit:src/skills/architecture-patterns/SKILL.md",
+      "orchestkit:src/skills/architecture-patterns/rules/backend-di.md",
+      "orchestkit:src/skills/architecture-patterns/rules/backend-layers.md",
+      "orchestkit:src/skills/architecture-patterns/rules/backend-repository.md",
+      "orchestkit:src/skills/architecture-patterns/rules/clean-dependency-rule.md",
+      "orchestkit:src/skills/architecture-patterns/rules/clean-hexagonal.md",
+      "orchestkit:src/skills/architecture-patterns/rules/clean-ports-adapters.md",
+      "orchestkit:src/skills/architecture-patterns/rules/right-sizing-decision.md",
+      "orchestkit:src/skills/architecture-patterns/rules/right-sizing-tiers.md",
+      "orchestkit:src/skills/architecture-patterns/rules/structure-conventions.md",
+      "orchestkit:src/skills/architecture-patterns/rules/structure-folders.md",
+      "orchestkit:src/skills/architecture-patterns/rules/testing-aaa.md",
+      "orchestkit:src/skills/architecture-patterns/rules/testing-coverage.md",
+      "orchestkit:src/skills/architecture-patterns/rules/testing-naming.md",
+      "orchestkit:src/skills/design-system-tokens/SKILL.md",
+      "orchestkit:src/skills/design-system-tokens/rules/tokens-contrast-enforcement.md",
+      "orchestkit:src/skills/design-system-tokens/rules/tokens-oklch-color.md",
+      "orchestkit:src/skills/design-system-tokens/rules/tokens-spacing-depth.md",
+      "orchestkit:src/skills/design-system-tokens/rules/tokens-style-dictionary.md",
+      "orchestkit:src/skills/design-system-tokens/rules/tokens-theming-darkmode.md",
+      "orchestkit:src/skills/design-system-tokens/rules/tokens-three-tier.md",
+      "orchestkit:src/skills/design-system-tokens/rules/tokens-versioning.md",
+      "orchestkit:src/skills/design-system-tokens/rules/tokens-w3c-format.md",
+      "orchestkit:src/skills/python-backend/SKILL.md",
+      "orchestkit:src/skills/python-backend/rules/asyncio-cancellation.md",
+      "orchestkit:src/skills/python-backend/rules/asyncio-structured.md",
+      "orchestkit:src/skills/python-backend/rules/asyncio-taskgroup.md",
+      "orchestkit:src/skills/python-backend/rules/fastapi-background.md",
+      "orchestkit:src/skills/python-backend/rules/fastapi-dependencies.md",
+      "orchestkit:src/skills/python-backend/rules/fastapi-middleware.md",
+      "orchestkit:src/skills/python-backend/rules/pooling-database.md",
+      "orchestkit:src/skills/python-backend/rules/pooling-http.md",
+      "orchestkit:src/skills/python-backend/rules/pooling-tuning.md",
+      "orchestkit:src/skills/python-backend/rules/sqlalchemy-migrations.md",
+      "orchestkit:src/skills/python-backend/rules/sqlalchemy-relationships.md",
+      "orchestkit:src/skills/python-backend/rules/sqlalchemy-sessions.md",
+      "orchestkit:src/skills/react-server-components-framework/SKILL.md",
+      "orchestkit:src/skills/react-server-components-framework/rules/rsc-cache-safety.md",
+      "orchestkit:src/skills/react-server-components-framework/rules/rsc-client-boundaries.md",
+      "orchestkit:src/skills/react-server-components-framework/rules/rsc-component-types.md",
+      "orchestkit:src/skills/react-server-components-framework/rules/rsc-hydration.md",
+      "orchestkit:src/skills/react-server-components-framework/rules/rsc-serialization.md",
+      "orchestkit:src/skills/responsive-patterns/SKILL.md",
+      "orchestkit:src/skills/responsive-patterns/rules/animation-motion.md",
+      "orchestkit:src/skills/responsive-patterns/rules/animation-scroll.md",
+      "orchestkit:src/skills/responsive-patterns/rules/css-intrinsic-responsive.md",
+      "orchestkit:src/skills/responsive-patterns/rules/css-patterns.md",
+      "orchestkit:src/skills/responsive-patterns/rules/css-subgrid.md",
+      "orchestkit:src/skills/responsive-patterns/rules/pwa-offline.md",
+      "orchestkit:src/skills/responsive-patterns/rules/pwa-service-worker.md",
+      "orchestkit:src/skills/responsive-patterns/rules/react-patterns.md",
+      "orchestkit:src/skills/responsive-patterns/rules/responsive-foldables.md",
+      "orchestkit:src/skills/responsive-patterns/rules/touch-interaction.md",
+      "orchestkit:src/skills/testing-e2e/SKILL.md",
+      "orchestkit:src/skills/testing-e2e/rules/a11y-playwright.md",
+      "orchestkit:src/skills/testing-e2e/rules/a11y-testing.md",
+      "orchestkit:src/skills/testing-e2e/rules/e2e-ai-agents.md",
+      "orchestkit:src/skills/testing-e2e/rules/e2e-page-objects.md",
+      "orchestkit:src/skills/testing-e2e/rules/e2e-playwright.md",
+      "orchestkit:src/skills/testing-e2e/rules/emulate-e2e.md",
+      "orchestkit:src/skills/testing-e2e/rules/validation-end-to-end.md",
+      "orchestkit:src/skills/testing-integration/SKILL.md",
+      "orchestkit:src/skills/testing-integration/rules/emulate-stateful-testing.md",
+      "orchestkit:src/skills/testing-integration/rules/integration-api.md",
+      "orchestkit:src/skills/testing-integration/rules/integration-component.md",
+      "orchestkit:src/skills/testing-integration/rules/integration-database.md",
+      "orchestkit:src/skills/testing-integration/rules/validation-zod-schema.md",
+      "orchestkit:src/skills/testing-integration/rules/verification-contract.md",
+      "orchestkit:src/skills/testing-integration/rules/verification-stateful.md",
+      "orchestkit:src/skills/testing-integration/rules/verification-techniques.md",
+      "orchestkit:src/skills/testing-unit/SKILL.md",
+      "orchestkit:src/skills/testing-unit/rules/data-factories.md",
+      "orchestkit:src/skills/testing-unit/rules/data-fixtures.md",
+      "orchestkit:src/skills/testing-unit/rules/data-seeding-cleanup.md",
+      "orchestkit:src/skills/testing-unit/rules/mocking-msw.md",
+      "orchestkit:src/skills/testing-unit/rules/mocking-vcr.md",
+      "orchestkit:src/skills/testing-unit/rules/unit-aaa-pattern.md",
+      "orchestkit:src/skills/testing-unit/rules/unit-fixture-scoping.md",
+      "orchestkit:src/skills/testing-unit/rules/unit-parametrized.md",
+      "policy:anti-slop-bundle",
+      "policy:anti-slop-css",
+      "policy:anti-slop-typescript",
+      "policy:css-architecture",
+      "policy:dependency-cruiser",
+      "policy:design-document",
+      "policy:import-paths",
+      "policy:stylelint"
+    ],
+    "ruleDigest": "d274d52a586a9783e0b83179996b04baed5b778a95e04559c96ca9e05f731950",
+    "taskEvidence": {}
+  },
+  "retrofitCandidates": [
+    {
+      "policy": "policy:light-dismiss",
+      "path": "content.js",
+      "surface": "overlay",
+      "line": 2,
+      "sourceDigest": "b1ccd7b94e5513688a04d9c4618b00201151f51b651e473625338a269c4c33b8",
+      "policyDigest": "670f2a89006508fe82bda9967413f477050e10ab3b4f659196c7b487035d407a",
+      "status": "review-required"
+    },
+    {
+      "policy": "policy:light-dismiss",
+      "path": "options.html",
+      "surface": "autocomplete",
+      "line": 88,
+      "sourceDigest": "e50010f4f03fa2fcf590d6f057f6f763b5d3408e341c742e454cc0e0a45ee80d",
+      "policyDigest": "670f2a89006508fe82bda9967413f477050e10ab3b4f659196c7b487035d407a",
+      "status": "review-required"
+    }
+  ]
+}
