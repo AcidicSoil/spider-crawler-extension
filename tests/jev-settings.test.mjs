@@ -10,6 +10,10 @@ function settings(initial = {}, discovery = { ok: true, models: ['laya', 'kev-0.
   const state = { ...initial };
   const messages = [];
   const writes = [];
+  const events = new Map();
+  const intervals = [];
+  const page = { visibilityState: 'visible' };
+  let currentDiscovery = discovery;
   function element(id) {
     if (!nodes.has(id)) {
       const node = { id, value: '', textContent: '', className: '', hidden: false, disabled: false,
@@ -37,7 +41,7 @@ function settings(initial = {}, discovery = { ok: true, models: ['laya', 'kev-0.
     } },
     runtime: { lastError: null, sendMessage: (msg, callback) => {
       messages.push(msg);
-      callback(discovery);
+      callback(currentDiscovery);
     } },
   };
   runInNewContext(source, {
@@ -47,11 +51,15 @@ function settings(initial = {}, discovery = { ok: true, models: ['laya', 'kev-0.
       SKINS: { venom: { name: 'Venom' } }, SKIN_KEYS: ['shell'],
       validSkin: () => true, resolveSkin: () => ({ shell: '#121212' }),
     } },
-    document: { getElementById: element, createElement: () => ({ innerHTML: '' }) },
+    document: { ...page, get visibilityState() { return page.visibilityState; },
+      getElementById: element, createElement: () => ({ innerHTML: '' }),
+      addEventListener: (name, handler) => events.set(`document:${name}`, handler) },
+    window: { addEventListener: (name, handler) => events.set(`window:${name}`, handler) },
     chrome, Option: class { constructor(label, value) { this.text = label; this.value = value; } },
-    setTimeout, clearTimeout, URL,
+    setTimeout, clearTimeout, setInterval: fn => { intervals.push(fn); return intervals.length; }, URL,
   });
-  return { element, state, messages, writes };
+  return { element, state, messages, writes, intervals, events, page,
+    changeDiscovery: next => { currentDiscovery = next; } };
 }
 
 async function settle() { await new Promise(resolve => setTimeout(resolve, 15)); }
@@ -120,4 +128,42 @@ test('switching remote/local provider preserves saved remote credentials', async
   assert.equal(ui.state.jevProvider, 'local');
   assert.equal(ui.state.jevKeySet, true);
   assert.equal(ui.state.jevLocalModel, 'laya');
+});
+
+
+test('newly downloaded decision models appear on focus without replacing selection', async () => {
+  const ui = settings({ jevProvider: 'local', jevLocalModel: 'laya' },
+    { ok: true, models: ['laya'] });
+  await settle();
+  ui.changeDiscovery({ ok: true, models: ['laya', 'newly-downloaded-model'] });
+  ui.events.get('window:focus')();
+  await settle();
+  assert.deepEqual(ui.element('jevLocalModel').options.map(option => option.value),
+    ['', 'laya', 'newly-downloaded-model']);
+  assert.equal(ui.state.jevLocalModel, 'laya');
+  assert.equal(ui.element('jevLocalModel').value, 'laya');
+});
+
+test('model discovery polls only while the settings page is visible', async () => {
+  const ui = settings({ jevProvider: 'local', jevLocalModel: '' },
+    { ok: true, models: ['laya'] });
+  await settle();
+  assert.equal(ui.intervals.length, 1);
+  ui.changeDiscovery({ ok: true, models: ['laya', 'downloaded-2'] });
+  ui.intervals[0]();
+  await settle();
+  assert.equal(ui.element('jevLocalModel').options.length, 3);
+  ui.changeDiscovery({ ok: true, models: ['laya', 'downloaded-2', 'downloaded-3'] });
+  ui.events.get('document:visibilitychange')();
+  await settle();
+  assert.equal(ui.element('jevLocalModel').options.length, 4);
+  ui.page.visibilityState = 'hidden';
+  ui.changeDiscovery({ ok: true, models: ['laya', 'downloaded-2', 'downloaded-3', 'downloaded-4'] });
+  ui.intervals[0]();
+  await settle();
+  assert.equal(ui.element('jevLocalModel').options.length, 4);
+  ui.page.visibilityState = 'visible';
+  ui.events.get('document:visibilitychange')();
+  await settle();
+  assert.equal(ui.element('jevLocalModel').options.length, 5);
 });

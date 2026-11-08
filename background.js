@@ -36,7 +36,7 @@ async function discoverLocalModels(baseUrl) {
   try { url = localApiBase(baseUrl) + '/models'; }
   catch { return { ok: false, error: 'invalid_endpoint' }; }
   try {
-    const res = await fetch(url, { headers: { Accept: 'application/json' },
+    const res = await fetch(url, { cache: 'no-store', headers: { Accept: 'application/json' },
       signal: AbortSignal.timeout(5000) });
     if (!res.ok) return { ok: false, error: `http_${res.status}` };
     const data = await res.json();

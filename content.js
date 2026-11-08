@@ -61,6 +61,7 @@
   let sessionId = newSessionId();
   let running = false;
   let rafId = 0;
+  let lastContextCheck = 0;
   let lastTs = 0;
   let canvas = null;
   let ctx = null;
@@ -1236,7 +1237,22 @@
     d.trail = String(sp.trail.length);
   }
 
+  function extensionContextAlive() {
+    if (!HAS_STORAGE) return true;
+    try {
+      return Boolean(chrome.runtime?.id && chrome.runtime.getManifest());
+    } catch {
+      return false;
+    }
+  }
+
   function tick(ts) {
+    // Disabling an MV3 extension leaves injected DOM alive until the page reloads.
+    // Probe the extension context once per second and remove our overlay if it dies.
+    if (ts - lastContextCheck >= 1000) {
+      lastContextCheck = ts;
+      if (!extensionContextAlive()) { stop(); return; }
+    }
     rafId = requestAnimationFrame(tick);
     const dt = Math.min(0.05, (ts - (lastTs || ts)) / 1000);
     lastTs = ts;
@@ -1276,6 +1292,7 @@
     lastScrollY = window.scrollY;
     buildSpider(window.innerWidth * (0.25 + Math.random() * 0.5), window.innerHeight * (0.25 + Math.random() * 0.5));
     lastTs = 0;
+    lastContextCheck = 0;
     rafId = requestAnimationFrame(tick);
   }
 

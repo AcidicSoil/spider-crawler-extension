@@ -129,6 +129,16 @@ async function refreshLocalModels() {
   }
 }
 
+function autoRefreshLocalModels() {
+  if (!state || $('jevProvider').value !== 'local' || document.visibilityState === 'hidden' ||
+      $('jevRefresh').disabled) return;
+  void refreshLocalModels();
+}
+
+window.addEventListener('focus', autoRefreshLocalModels);
+document.addEventListener('visibilitychange', autoRefreshLocalModels);
+setInterval(autoRefreshLocalModels, 30000);
+
 function updateProviderUI() {
   const local = $('jevProvider').value === 'local';
   $('jevLocalSettings').hidden = !local;

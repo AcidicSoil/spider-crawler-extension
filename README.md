@@ -46,7 +46,7 @@ You can switch creatures live from the toolbar popup.
 4. Click **Load unpacked** and pick the unzipped folder (the one containing `manifest.json`).
 5. Open any website. The creature starts crawling.
 
-Click the toolbar icon for quick settings: on/off, hunt, creature, mode, skin and the crawl log. **Settings** opens the full options page. The creature crawls the options page too, so you can preview changes live.
+Click the toolbar icon for quick settings: on/off, hunt, creature, mode, skin and the crawl log. **Settings** opens the full options page. The creature crawls the options page too, so you can preview changes live. Disabling the extension in Chrome also removes its existing overlay from an active page without requiring a reload.
 
 ## Using Jev
 
@@ -55,7 +55,7 @@ Jev uses the System One decision protocol to classify links as relevant or unrel
 **Local decision models (no key):**
 
 1. Start an existing System One-compatible local model server, such as a llama.cpp router. The default server URL is `http://127.0.0.1:8800/v1`; you can enter another loopback port in **Settings → Hunt & Jev**.
-2. Choose **Local System One**. The extension automatically requests `GET /v1/models`. **Refresh models** repeats discovery.
+2. Choose **Local System One**. The extension requests `GET /v1/models` when settings open, when the page regains focus, and every 30 seconds while visible. **Refresh models** requests an immediate, uncached list. Newly downloaded models appear when the configured server advertises them.
 3. Pick **Decision model** from the discovered models. Only entries advertising `architecture.output_modalities` containing `decisions` are listed. Servers that advertise configured but unloaded models make those models selectable as well.
 4. Press **Test Jev** to exercise the selected model, then enter **Hunt for**.
 
