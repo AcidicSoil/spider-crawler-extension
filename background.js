@@ -32,20 +32,49 @@ function localApiBase(value) {
 }
 
 async function discoverLocalModels(baseUrl) {
-  let url;
-  try { url = localApiBase(baseUrl) + '/models'; }
+  let base;
+  try { base = localApiBase(baseUrl); }
   catch { return { ok: false, error: 'invalid_endpoint' }; }
   try {
-    const res = await fetch(url, { cache: 'no-store', headers: { Accept: 'application/json' },
+    const res = await fetch(base + '/models', { cache: 'no-store', headers: { Accept: 'application/json' },
       signal: AbortSignal.timeout(5000) });
     if (!res.ok) return { ok: false, error: `http_${res.status}` };
-    const data = await res.json();
+    let data = await res.json();
     if (!Array.isArray(data.data)) return { ok: false, error: 'malformed_models' };
-    const models = [...new Set(data.data.filter(model =>
-      typeof model?.id === 'string' && model.id.length > 0 && model.id.length <= 256 &&
-      Array.isArray(model.architecture?.output_modalities) &&
-      model.architecture.output_modalities.includes('decisions')).map(model => model.id))];
-    return { ok: true, models };
+    let stale = false;
+    // A llama.cpp router caches its inventory until /models?reload=1. Other
+    // System One servers may not support that path, so probe it only for routers.
+    if (data.data.some(model => model?.status && typeof model.status.value === 'string')) {
+      try {
+        const fresh = await fetch(new URL('/models?reload=1', base), {
+          cache: 'no-store', headers: { Accept: 'application/json' },
+          signal: AbortSignal.timeout(5000),
+        });
+        if (fresh.ok) {
+          const refreshed = await fresh.json();
+          if (Array.isArray(refreshed.data)) data = refreshed;
+          else stale = true;
+        } else stale = true;
+      } catch { stale = true; /* retain cached inventory */ }
+    }
+    const models = [];
+    const unavailableModels = [];
+    const unverifiedModels = [];
+    const seen = new Set();
+    for (const model of data.data) {
+      const id = model?.id;
+      if (typeof id !== 'string' || !id || id.length > 256 || seen.has(id)) continue;
+      seen.add(id);
+      const modalities = model.architecture?.output_modalities;
+      // An unloaded --model preset has no reliable offline capability metadata.
+      // llama.cpp can report 'text' for native decision GGUF aliases until loaded.
+      const localPreset = model.status?.value === 'unloaded' &&
+        Array.isArray(model.status.args) && model.status.args.includes('--model');
+      if (!Array.isArray(modalities) || localPreset && !modalities.includes('decisions')) unverifiedModels.push(id);
+      else if (modalities.includes('decisions')) models.push(id);
+      else unavailableModels.push(id);
+    }
+    return { ok: true, models, unavailableModels, unverifiedModels, stale };
   } catch {
     return { ok: false, error: 'local_unavailable' };
   }

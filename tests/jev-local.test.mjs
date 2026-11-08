@@ -59,8 +59,65 @@ test('discovers only decision-capable installed models; never selects a default'
     const response = await message({ type: 'jev-models', baseUrl: service.baseUrl });
     assert.equal(response.ok, true);
     assert.deepEqual(JSON.parse(JSON.stringify(response.models)), ['laya', 'kev-0.8b']);
+    assert.deepEqual(JSON.parse(JSON.stringify(response.unverifiedModels)), ['unknown']);
+    assert.deepEqual(JSON.parse(JSON.stringify(response.unavailableModels)), ['regular-chat']);
     assert.equal(Object.hasOwn(response, 'selectedModel'), false);
     assert.deepEqual(service.requests.map(req => [req.method, req.path, req.auth]), [['GET', '/v1/models', undefined]]);
+  } finally { await service.close(); }
+});
+
+test('refreshes llama router inventory and reports cached non-native models', async () => {
+  const service = await serve((req, res) => {
+    const data = req.url === '/models?reload=1'
+      ? [
+          { id: 'laya', status: { value: 'unloaded' }, architecture: { output_modalities: ['decisions'] } },
+          { id: 'mradermacher/StartLux-Decision-v1-4B-GGUF:Q4_K_S',
+            status: { value: 'unloaded' }, architecture: { output_modalities: ['text'] } },
+        ]
+      : [{ id: 'laya', status: { value: 'unloaded' }, architecture: { output_modalities: ['decisions'] } }];
+    res.writeHead(200, { 'content-type': 'application/json' }).end(JSON.stringify({ data }));
+  });
+  try {
+    const response = await worker().message({ type: 'jev-models', baseUrl: service.baseUrl });
+    assert.equal(response.ok, true);
+    assert.deepEqual(JSON.parse(JSON.stringify(response.models)), ['laya']);
+    assert.deepEqual(JSON.parse(JSON.stringify(response.unavailableModels)), [
+      'mradermacher/StartLux-Decision-v1-4B-GGUF:Q4_K_S',
+    ]);
+    assert.deepEqual(service.requests.map(request => request.path), ['/v1/models', '/models?reload=1']);
+  } finally { await service.close(); }
+});
+
+test('unloaded GGUF file presets stay testable despite missing offline capability metadata', async () => {
+  const service = await serve((_req, res) => {
+    res.writeHead(200, { 'content-type': 'application/json' }).end(JSON.stringify({
+      data: [
+        { id: 'local-alias', status: { value: 'unloaded', args: ['--model', '/cache/native.gguf'] },
+          architecture: { output_modalities: ['text'] } },
+        { id: 'loaded-text', status: { value: 'loaded', args: ['--model', '/cache/text.gguf'] },
+          architecture: { output_modalities: ['text'] } },
+      ],
+    }));
+  });
+  try {
+    const response = await worker().message({ type: 'jev-models', baseUrl: service.baseUrl });
+    assert.deepEqual(JSON.parse(JSON.stringify(response.unverifiedModels)), ['local-alias']);
+    assert.deepEqual(JSON.parse(JSON.stringify(response.unavailableModels)), ['loaded-text']);
+  } finally { await service.close(); }
+});
+
+test('refresh failures retain previously discovered router models', async () => {
+  const service = await serve((req, res) => {
+    if (req.url === '/models?reload=1') { res.writeHead(503).end('offline'); return; }
+    res.writeHead(200, { 'content-type': 'application/json' }).end(JSON.stringify({
+      data: [{ id: 'laya', status: { value: 'unloaded' }, architecture: { output_modalities: ['decisions'] } }],
+    }));
+  });
+  try {
+    const response = await worker().message({ type: 'jev-models', baseUrl: service.baseUrl });
+    assert.deepEqual(JSON.parse(JSON.stringify(response.models)), ['laya']);
+    assert.equal(response.ok, true);
+    assert.equal(response.stale, true);
   } finally { await service.close(); }
 });
 

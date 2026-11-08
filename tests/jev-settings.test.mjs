@@ -167,3 +167,48 @@ test('model discovery polls only while the settings page is visible', async () =
   await settle();
   assert.equal(ui.element('jevLocalModel').options.length, 5);
 });
+
+
+test('discovered GGUF with text-only serving is visible but cannot be selected as a decision model', async () => {
+  const id = 'mradermacher/StartLux-Decision-v1-4B-GGUF:Q4_K_S';
+  const ui = settings({ jevProvider: 'local', jevLocalModel: 'laya' },
+    { ok: true, models: ['laya'], unavailableModels: [id] });
+  await settle();
+  const option = ui.element('jevLocalModel').options.find(item => item.value === id);
+  assert.ok(option, 'the downloaded model must appear in the model inventory');
+  assert.equal(option.disabled, true, 'text-only models cannot be selected for System One');
+  assert.match(option.text, /not served as decisions/i);
+  assert.equal(ui.state.jevLocalModel, 'laya');
+});
+
+
+test('servers without capability metadata list explicit opt-in models for testing', async () => {
+  const ui = settings({ jevProvider: 'local', jevLocalModel: '' },
+    { ok: true, models: [], unverifiedModels: ['custom-provider-model'] });
+  await settle();
+  const option = ui.element('jevLocalModel').options.find(item => item.value === 'custom-provider-model');
+  assert.ok(option);
+  assert.equal(option.disabled, undefined);
+  assert.match(option.text, /unverified/i);
+  assert.equal(ui.state.jevLocalModel || '', '');
+});
+
+
+test('router reload failure is visibly reported with stale candidates retained', async () => {
+  const ui = settings({ jevProvider: 'local', jevLocalModel: 'laya' },
+    { ok: true, models: ['laya'], stale: true });
+  await settle();
+  assert.equal(ui.state.jevLocalModel, 'laya');
+  assert.match(ui.element('jevLocalStatus').textContent, /cached.*refresh failed|refresh failed.*cached/i);
+});
+
+
+test('selected unverified model remains unique and testable', async () => {
+  const ui = settings({ jevProvider: 'local', jevLocalModel: 'local-alias' },
+    { ok: true, models: [], unverifiedModels: ['local-alias'] });
+  await settle();
+  const options = ui.element('jevLocalModel').options.filter(option => option.value === 'local-alias');
+  assert.equal(options.length, 1);
+  assert.equal(options[0].disabled, undefined);
+  assert.equal(ui.element('jevLocalModel').value, 'local-alias');
+});

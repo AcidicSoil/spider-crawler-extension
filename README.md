@@ -55,11 +55,13 @@ Jev uses the System One decision protocol to classify links as relevant or unrel
 **Local decision models (no key):**
 
 1. Start an existing System One-compatible local model server, such as a llama.cpp router. The default server URL is `http://127.0.0.1:8800/v1`; you can enter another loopback port in **Settings → Hunt & Jev**.
-2. Choose **Local System One**. The extension requests `GET /v1/models` when settings open, when the page regains focus, and every 30 seconds while visible. **Refresh models** requests an immediate, uncached list. Newly downloaded models appear when the configured server advertises them.
-3. Pick **Decision model** from the discovered models. Only entries advertising `architecture.output_modalities` containing `decisions` are listed. Servers that advertise configured but unloaded models make those models selectable as well.
+2. Choose **Local System One**. Discovery runs when settings open, on page focus, and every 30 seconds while visible. The extension reads `GET /v1/models` and, for llama.cpp routers, `GET /models?reload=1` to include GGUF files downloaded after router startup without restarting it. **Refresh models** does the same immediately. No model names are hardcoded.
+3. Pick **Decision model** from the discovered models. Entries advertising `architecture.output_modalities` with `decisions` are selectable, including unloaded ones. Models confirmed as text-only are visible but disabled because the configured endpoint does not serve native decisions. Unloaded local-file presets may carry placeholder `text` metadata; they remain selectable but **unverified** until tested, as do servers omitting capability metadata. Use **Test Jev** before hunting. If a router cache refresh fails, the UI reports that its model list is stale.
 4. Press **Test Jev** to exercise the selected model, then enter **Hunt for**.
 
 **No model is selected automatically.** Model IDs come directly from the server, not a built-in list. Your choice and endpoint are stored locally. If the model disappears or the server is unavailable, the choice remains visible; no different model is substituted. Changing the endpoint successfully clears the old model choice so you can select one served by the new endpoint. Local endpoints are restricted to `http://127.0.0.1:<port>/v1` or `http://localhost:<port>/v1`.
+
+A GGUF filename containing “Decision” does not prove that the configured server exposes its `/v1/systemone` implementation. For example, a StartLux GGUF can appear in a llama.cpp router cache while the router advertises `output_modalities: ["text"]`. To use it for decisions, run a compatible decision-serving engine (see [StartLux engine instructions](https://github.com/StartLuxLabs/StartLux-Decision/blob/main/docs/engines.md)) and configure that endpoint; the extension does not misrepresent a generic text-only endpoint as decision-capable.
 
 **Remote Jev providers:** TypeSafe, OpenCode Zen, OpenRouter Decisions API, and Venice remain available. Select the provider, enter its API key, press **Save key**, and use **Test Jev**. Changing to Local System One does not erase your remote credentials.
 
