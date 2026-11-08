@@ -24,10 +24,17 @@ function worker(config = {}, fetchImpl = fetch) {
   const state = { ...config };
   const chrome = {
     runtime: { id: 'test-extension', onMessage: { addListener: handler => handlers.push(handler) } },
-    storage: { local: {
-      get: async defaults => ({ ...defaults, ...state }),
-      set: async updates => Object.assign(state, updates),
-    } },
+    tabs: { onRemoved: { addListener() {} } },
+    storage: {
+      local: {
+        get: async defaults => ({ ...defaults, ...state }),
+        set: async updates => Object.assign(state, updates),
+      },
+      session: {
+        get: async () => ({}),
+        remove: async () => {},
+      },
+    },
   };
   runInNewContext(source, {
     chrome,
@@ -59,14 +66,14 @@ test('discovers only decision-capable installed models; never selects a default'
     const response = await message({ type: 'jev-models', baseUrl: service.baseUrl });
     assert.equal(response.ok, true);
     assert.deepEqual(JSON.parse(JSON.stringify(response.models)), ['laya', 'kev-0.8b']);
-    assert.deepEqual(JSON.parse(JSON.stringify(response.unverifiedModels)), ['unknown']);
-    assert.deepEqual(JSON.parse(JSON.stringify(response.unavailableModels)), ['regular-chat']);
+    assert.deepEqual(JSON.parse(JSON.stringify(response.unverifiedModels)), ['regular-chat', 'unknown']);
+    assert.equal(Object.hasOwn(response, 'unavailableModels'), false);
     assert.equal(Object.hasOwn(response, 'selectedModel'), false);
     assert.deepEqual(service.requests.map(req => [req.method, req.path, req.auth]), [['GET', '/v1/models', undefined]]);
   } finally { await service.close(); }
 });
 
-test('refreshes llama router inventory and reports cached non-native models', async () => {
+test('refreshes llama router inventory without mistaking text output for incompatible decisions', async () => {
   const service = await serve((req, res) => {
     const data = req.url === '/models?reload=1'
       ? [
@@ -81,9 +88,10 @@ test('refreshes llama router inventory and reports cached non-native models', as
     const response = await worker().message({ type: 'jev-models', baseUrl: service.baseUrl });
     assert.equal(response.ok, true);
     assert.deepEqual(JSON.parse(JSON.stringify(response.models)), ['laya']);
-    assert.deepEqual(JSON.parse(JSON.stringify(response.unavailableModels)), [
+    assert.deepEqual(JSON.parse(JSON.stringify(response.unverifiedModels)), [
       'mradermacher/StartLux-Decision-v1-4B-GGUF:Q4_K_S',
     ]);
+    assert.equal(Object.hasOwn(response, 'unavailableModels'), false);
     assert.deepEqual(service.requests.map(request => request.path), ['/v1/models', '/models?reload=1']);
   } finally { await service.close(); }
 });
@@ -101,8 +109,8 @@ test('unloaded GGUF file presets stay testable despite missing offline capabilit
   });
   try {
     const response = await worker().message({ type: 'jev-models', baseUrl: service.baseUrl });
-    assert.deepEqual(JSON.parse(JSON.stringify(response.unverifiedModels)), ['local-alias']);
-    assert.deepEqual(JSON.parse(JSON.stringify(response.unavailableModels)), ['loaded-text']);
+    assert.deepEqual(JSON.parse(JSON.stringify(response.unverifiedModels)), ['local-alias', 'loaded-text']);
+    assert.equal(Object.hasOwn(response, 'unavailableModels'), false);
   } finally { await service.close(); }
 });
 

@@ -75,7 +75,6 @@ function renderKeyState(v) {
 const DEFAULT_LOCAL_URL = 'http://127.0.0.1:8800/v1';
 let discoveryVersion = 0;
 let detectedModels = [];
-let unavailableModels = [];
 let unverifiedModels = [];
 
 function localStatus(message) {
@@ -90,13 +89,8 @@ function renderLocalModels() {
   select.add(new Option('Choose model', ''));
   for (const id of detectedModels) select.add(new Option(id, id));
   for (const id of unverifiedModels) select.add(new Option(`${id} (unverified — test Jev)`, id));
-  for (const id of unavailableModels) {
-    const option = new Option(`${id} (not served as decisions)`, id);
-    option.disabled = true;
-    select.add(option);
-  }
   if (selected && !detectedModels.includes(selected) &&
-      !unverifiedModels.includes(selected) && !unavailableModels.includes(selected)) {
+      !unverifiedModels.includes(selected)) {
     select.add(new Option(`${selected} (unavailable)`, selected));
   }
   select.value = selected;
@@ -117,7 +111,6 @@ async function refreshLocalModels() {
   $('jevRefresh').disabled = false;
   if (!result.ok) {
     detectedModels = [];
-    unavailableModels = [];
     unverifiedModels = [];
     renderLocalModels();
     localStatus(`Discovery unavailable: ${result.error}. Saved selection unchanged.`);
@@ -130,9 +123,8 @@ async function refreshLocalModels() {
     set({ jevLocalUrl: url, jevLocalModel: '' });
   }
   detectedModels = result.models;
-  unavailableModels = (result.unavailableModels || []).filter(id => !detectedModels.includes(id));
   unverifiedModels = (result.unverifiedModels || [])
-    .filter(id => !detectedModels.includes(id) && !unavailableModels.includes(id));
+    .filter(id => !detectedModels.includes(id));
   renderLocalModels();
   if (result.stale) {
     localStatus('Router refresh failed · showing cached models');
@@ -140,7 +132,7 @@ async function refreshLocalModels() {
       !unverifiedModels.includes(state.jevLocalModel)) {
     localStatus(`${state.jevLocalModel} unavailable · choose a model or refresh`);
   } else {
-    localStatus(`${detectedModels.length} verified decisions · ${unverifiedModels.length} unverified · ${unavailableModels.length} incompatible`);
+    localStatus(`${detectedModels.length} advertise decisions · ${unverifiedModels.length} need testing`);
   }
 }
 
@@ -206,7 +198,7 @@ $('jevLocalModel').addEventListener('change', () => {
       !unverifiedModels.includes(state.jevLocalModel)) {
     localStatus(`${state.jevLocalModel} unavailable · choose a model or refresh`);
   } else {
-    localStatus(`${detectedModels.length} verified decisions · ${unverifiedModels.length} unverified · ${unavailableModels.length} incompatible`);
+    localStatus(`${detectedModels.length} advertise decisions · ${unverifiedModels.length} need testing`);
   }
 });
 $('jevThreshold').addEventListener('input', () => { $('thV').textContent = (+$('jevThreshold').value).toFixed(2); set({ jevThreshold: +$('jevThreshold').value }); });

@@ -23,7 +23,6 @@ function updateJev(v) {
 }
 
 chrome.storage.local.get(Object.assign({}, DEFAULTS, { crawlLog: [], jevKeySet: false, jevProvider: 'typesafe', jevLocalModel: '', }), (v) => {
-  $('enabled').checked = !!v.enabled;
   $('hunt').value = v.hunt || '';
   $('mode').value = v.mode;
   $('creature').value = v.creature;
@@ -39,7 +38,26 @@ chrome.runtime.sendMessage({ type: 'spider-health' }, response => {
 $('backendResults').addEventListener('click', () =>
   chrome.tabs.create({ url: 'http://127.0.0.1:5195/' }));
 
-$('enabled').addEventListener('change', () => chrome.storage.local.set({ enabled: $('enabled').checked }));
+let activeTabId = null;
+$('enabled').disabled = true;
+chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
+  const id = tabs[0]?.id;
+  if (!Number.isInteger(id)) return;
+  activeTabId = id;
+  chrome.storage.session.get(`spider-tab-${id}`, value => {
+    $('enabled').checked = value[`spider-tab-${id}`] === true;
+    $('enabled').disabled = false;
+  });
+});
+$('enabled').addEventListener('change', () => {
+  if (activeTabId === null) return;
+  const enabled = $('enabled').checked;
+  const key = `spider-tab-${activeTabId}`;
+  const notify = () => chrome.tabs.sendMessage(activeTabId,
+    { type: 'spider-tab-activation', enabled }, () => void chrome.runtime.lastError);
+  if (enabled) chrome.storage.session.set({ [key]: true }, notify);
+  else chrome.storage.session.remove(key, notify);
+});
 $('mode').addEventListener('change', () => chrome.storage.local.set({ mode: $('mode').value }));
 $('creature').addEventListener('change', () => chrome.storage.local.set({ creature: $('creature').value }));
 $('skin').addEventListener('change', () => chrome.storage.local.set({ skin: $('skin').value }));

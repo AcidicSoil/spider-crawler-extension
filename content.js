@@ -44,6 +44,8 @@
 
   // ---- state --------------------------------------------------------------
   let cfg = Object.assign({}, DEFAULTS);
+  let tabEnabled = false;
+  let activationRevision = 0;
   let jevKeySet = false;
   let skin = resolveSkin(cfg);
   const visited = new Set();          // hrefs bitten or wrapped on this page
@@ -1316,7 +1318,7 @@
   function applySettings(next, first) {
     const prevSize = cfg.size;
     const prevHunt = cfg.hunt;
-    cfg = Object.assign({}, DEFAULTS, next);
+    cfg = Object.assign({}, DEFAULTS, next, HAS_STORAGE ? { enabled: tabEnabled } : {});
     if (cfg.hunt !== prevHunt && !first) {
       verdicts.clear();
       document.querySelectorAll('.__spider_cocoon').forEach((el) => el.classList.remove('__spider_cocoon'));
@@ -1341,6 +1343,18 @@
   window.addEventListener('pagehide', flush);
 
   if (HAS_STORAGE) {
+    chrome.runtime.onMessage.addListener(msg => {
+      if (msg?.type !== 'spider-tab-activation') return false;
+      activationRevision++;
+      tabEnabled = msg.enabled === true;
+      applySettings(cfg, false);
+      return false;
+    });
+    chrome.runtime.sendMessage({ type: 'spider-tab-state' }, response => {
+      if (chrome.runtime.lastError || activationRevision) return;
+      tabEnabled = response?.enabled === true;
+      applySettings(cfg, false);
+    });
     const keys = Object.assign({}, DEFAULTS, {
       jevKeySet: false, jevProvider: 'typesafe', jevLocalModel: '',
     });

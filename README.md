@@ -44,9 +44,9 @@ You can switch creatures live from the toolbar popup.
 2. Open `chrome://extensions` (or `edge://extensions`, `brave://extensions`).
 3. Turn on **Developer mode**.
 4. Click **Load unpacked** and pick the unzipped folder (the one containing `manifest.json`).
-5. Open any website. The creature starts crawling.
+5. Open a website, click the extension toolbar icon, and enable **Animate on this tab**. Other tabs stay inactive.
 
-Click the toolbar icon for quick settings: on/off, hunt, creature, mode, skin and the crawl log. **Settings** opens the full options page. The creature crawls the options page too, so you can preview changes live. Disabling the extension in Chrome also removes its existing overlay from an active page without requiring a reload.
+Click the toolbar icon for quick settings: activate the creature on the current tab, hunt, creature, mode, skin and the crawl log. New tabs stay inactive until you enable them. Tab activation survives navigation within that tab and resets when it closes. **Settings** opens the full options page. Disabling the extension in Chrome also removes an existing overlay without requiring a reload.
 
 ## Using Jev
 
@@ -56,12 +56,12 @@ Jev uses the System One decision protocol to classify links as relevant or unrel
 
 1. Start an existing System One-compatible local model server, such as a llama.cpp router. The default server URL is `http://127.0.0.1:8800/v1`; you can enter another loopback port in **Settings → Hunt & Jev**.
 2. Choose **Local System One**. Discovery runs when settings open, on page focus, and every 30 seconds while visible. The extension reads `GET /v1/models` and, for llama.cpp routers, `GET /models?reload=1` to include GGUF files downloaded after router startup without restarting it. **Refresh models** does the same immediately. No model names are hardcoded.
-3. Pick **Decision model** from the discovered models. Entries advertising `architecture.output_modalities` with `decisions` are selectable, including unloaded ones. Models confirmed as text-only are visible but disabled because the configured endpoint does not serve native decisions. Unloaded local-file presets may carry placeholder `text` metadata; they remain selectable but **unverified** until tested, as do servers omitting capability metadata. Use **Test Jev** before hunting. If a router cache refresh fails, the UI reports that its model list is stale.
+3. Pick **Decision model** from the discovered models. Models advertising `decisions` as an output modality appear as decision candidates. Other models, including those advertising `text`, remain selectable as **unverified** until tested. Text output does not establish or rule out decision capability. Use **Test Jev** before hunting. If a router cache refresh fails, the UI reports that its model list is stale.
 4. Press **Test Jev** to exercise the selected model, then enter **Hunt for**.
 
 **No model is selected automatically.** Model IDs come directly from the server, not a built-in list. Your choice and endpoint are stored locally. If the model disappears or the server is unavailable, the choice remains visible; no different model is substituted. Changing the endpoint successfully clears the old model choice so you can select one served by the new endpoint. Local endpoints are restricted to `http://127.0.0.1:<port>/v1` or `http://localhost:<port>/v1`.
 
-A GGUF filename containing “Decision” does not prove that the configured server exposes its `/v1/systemone` implementation. For example, a StartLux GGUF can appear in a llama.cpp router cache while the router advertises `output_modalities: ["text"]`. To use it for decisions, run a compatible decision-serving engine (see [StartLux engine instructions](https://github.com/StartLuxLabs/StartLux-Decision/blob/main/docs/engines.md)) and configure that endpoint; the extension does not misrepresent a generic text-only endpoint as decision-capable.
+A GGUF filename containing “Decision” and the server's `output_modalities: ["text"]` are not evidence of whether `/v1/systemone` is supported. For example, a StartLux GGUF remains selectable for testing, but actual decisions require a compatible serving engine (see [StartLux engine instructions](https://github.com/StartLuxLabs/StartLux-Decision/blob/main/docs/engines.md)). The extension never treats text output alone as proof of incompatibility or verified decision support.
 
 **Remote Jev providers:** TypeSafe, OpenCode Zen, OpenRouter Decisions API, and Venice remain available. Select the provider, enter its API key, press **Save key**, and use **Test Jev**. Changing to Local System One does not erase your remote credentials.
 
@@ -99,7 +99,7 @@ The extension remains dependency-free Manifest V3. The backend uses the installe
 
 The backend **does not fetch other pages or navigate the browser**. Its job is to coordinate the actual animated spider on the page the user is viewing:
 
-1. The extension discovers visible links and computes a local keyword or optional Jev/System One decision for each one.
+1. Enable **Animate on this tab** in the extension popup. Only that tab's content script draws the spider. It discovers visible links and computes a local keyword or optional Jev/System One decision for each one.
 2. The extension sends the candidates, spider position, page URL, and hunt objective to `POST /api/next`.
 3. The backend prioritizes relevant links, chooses the closest in that class, and records the pending target.
 4. The original spider renderer walks to that target and performs its bite or wrap animation.

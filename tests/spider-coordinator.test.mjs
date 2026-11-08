@@ -10,7 +10,14 @@ function extensionWorker(fetchImpl) {
   const chrome = {
     runtime: { id: 'abcdefghijklmnopabcdefghijklmnop',
       onMessage: { addListener: fn => handlers.push(fn) } },
-    storage: { local: { get: async defaults => defaults } },
+    tabs: { onRemoved: { addListener() {} } },
+    storage: {
+      local: { get: async defaults => defaults },
+      session: {
+        get: async () => ({}),
+        remove: async () => {},
+      },
+    },
   };
   runInNewContext(source, {
     chrome, fetch: fetchImpl, URL, AbortSignal, AbortController, performance, setTimeout, clearTimeout,

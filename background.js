@@ -58,7 +58,6 @@ async function discoverLocalModels(baseUrl) {
       } catch { stale = true; /* retain cached inventory */ }
     }
     const models = [];
-    const unavailableModels = [];
     const unverifiedModels = [];
     const seen = new Set();
     for (const model of data.data) {
@@ -66,15 +65,11 @@ async function discoverLocalModels(baseUrl) {
       if (typeof id !== 'string' || !id || id.length > 256 || seen.has(id)) continue;
       seen.add(id);
       const modalities = model.architecture?.output_modalities;
-      // An unloaded --model preset has no reliable offline capability metadata.
-      // llama.cpp can report 'text' for native decision GGUF aliases until loaded.
-      const localPreset = model.status?.value === 'unloaded' &&
-        Array.isArray(model.status.args) && model.status.args.includes('--model');
-      if (!Array.isArray(modalities) || localPreset && !modalities.includes('decisions')) unverifiedModels.push(id);
-      else if (modalities.includes('decisions')) models.push(id);
-      else unavailableModels.push(id);
+      // Text describes the output format, not whether this model can make decisions.
+      if (Array.isArray(modalities) && modalities.includes('decisions')) models.push(id);
+      else unverifiedModels.push(id);
     }
-    return { ok: true, models, unavailableModels, unverifiedModels, stale };
+    return { ok: true, models, unverifiedModels, stale };
   } catch {
     return { ok: false, error: 'local_unavailable' };
   }
@@ -174,7 +169,20 @@ async function spiderBackend(path, body) {
   }
 }
 
+chrome.tabs.onRemoved.addListener(tabId => {
+  void chrome.storage.session.remove(`spider-tab-${tabId}`);
+});
+
 chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
+  if (msg?.type === 'spider-tab-state') {
+    const tabId = sender.tab?.id;
+    if (!Number.isInteger(tabId)) return false;
+    const key = `spider-tab-${tabId}`;
+    chrome.storage.session.get(key)
+      .then(values => sendResponse({ enabled: values[key] === true }))
+      .catch(() => sendResponse({ enabled: false }));
+    return true;
+  }
   if (msg?.type === 'jev-models') {
     if (!sender.url?.startsWith(`chrome-extension://${chrome.runtime.id}/`)) return false;
     discoverLocalModels(msg.baseUrl).then(sendResponse);

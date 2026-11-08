@@ -169,16 +169,19 @@ test('model discovery polls only while the settings page is visible', async () =
 });
 
 
-test('discovered GGUF with text-only serving is visible but cannot be selected as a decision model', async () => {
+test('text-output decision candidates remain selectable until inference is tested', async () => {
   const id = 'mradermacher/StartLux-Decision-v1-4B-GGUF:Q4_K_S';
   const ui = settings({ jevProvider: 'local', jevLocalModel: 'laya' },
-    { ok: true, models: ['laya'], unavailableModels: [id] });
+    { ok: true, models: ['laya'], unverifiedModels: [id] });
   await settle();
   const option = ui.element('jevLocalModel').options.find(item => item.value === id);
   assert.ok(option, 'the downloaded model must appear in the model inventory');
-  assert.equal(option.disabled, true, 'text-only models cannot be selected for System One');
-  assert.match(option.text, /not served as decisions/i);
+  assert.equal(option.disabled, undefined);
+  assert.match(option.text, /unverified/i);
   assert.equal(ui.state.jevLocalModel, 'laya');
+  ui.element('jevLocalModel').value = id;
+  await ui.element('jevLocalModel').change();
+  assert.equal(ui.state.jevLocalModel, id);
 });
 
 
