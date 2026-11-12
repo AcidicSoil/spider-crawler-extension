@@ -201,3 +201,68 @@ test('remote Jev still requires its key and uses bearer authorization', async ()
   assert.equal(actualUrl, 'https://api.typesafe.ai/v1/systemone');
   assert.equal(actualAuth, 'Bearer example-key');
 });
+
+test('discovers native System One model lists without output modality metadata', async () => {
+  const service = await serve((req, res) => {
+    res.writeHead(200, { 'content-type': 'application/json' }).end(JSON.stringify({
+      models: [
+        { name: 'model-v1-4b', description: 'typed decision model' },
+        { name: 'another-decision-model' },
+        { name: 'model-v1-4b' },
+      ],
+    }));
+  });
+  try {
+    const result = await worker().message({ type: 'jev-models', baseUrl: service.baseUrl });
+    assert.equal(result.ok, true);
+    assert.deepEqual(JSON.parse(JSON.stringify(result.models)), ['model-v1-4b', 'another-decision-model']);
+    assert.deepEqual(JSON.parse(JSON.stringify(result.unverifiedModels)), []);
+    assert.deepEqual(service.requests.map(req => req.path), ['/v1/models']);
+  } finally { await service.close(); }
+});
+
+test('live router discovery includes every cached model without reloading weights', {
+  skip: !process.env.SPIDER_LIVE_ROUTER_URL, timeout: 20000,
+}, async () => {
+  const baseUrl = process.env.SPIDER_LIVE_ROUTER_URL;
+  // Router reload may wake/download models; the mock test separately exercises refresh.
+  const cachedFetch = (url, options) => {
+    const target = new URL(url);
+    if (target.pathname === '/models' && target.searchParams.get('reload') === '1') {
+      target.search = '';
+      return fetch(target, options);
+    }
+    return fetch(url, options);
+  };
+  const inventory = await worker({}, cachedFetch).message({ type: 'jev-models', baseUrl });
+  assert.equal(inventory.ok, true, JSON.stringify(inventory));
+  const reported = await (await fetch(new URL('/models', baseUrl), {
+    signal: AbortSignal.timeout(5000),
+  })).json();
+  assert.ok(Array.isArray(reported.data));
+  const discovered = new Set([...inventory.models, ...inventory.unverifiedModels]);
+  const expected = reported.data.map(model => model.id).filter(id =>
+    typeof id === 'string' && id.length > 0 && id.length <= 256);
+  assert.ok(expected.length > 0);
+  for (const id of expected) assert.ok(discovered.has(id), `missing detected model: ${id}`);
+  assert.equal(discovered.size, new Set(expected).size);
+});
+
+test('live StartLux endpoint discovers and answers actual System One decisions', {
+  skip: !process.env.SPIDER_LIVE_STARTLUX_URL, timeout: 30000,
+}, async () => {
+  const baseUrl = process.env.SPIDER_LIVE_STARTLUX_URL;
+  const found = await worker().message({ type: 'jev-models', baseUrl });
+  assert.equal(found.ok, true, JSON.stringify(found));
+  assert.ok(found.models.length > 0, 'native decision server must list a model');
+  const model = found.models[0];
+  const result = await worker({
+    jevProvider: 'local',
+    jevLocalUrl: baseUrl,
+    jevLocalModel: model,
+  }).message({ type: 'jev-test' });
+  assert.equal(result.ok, true, JSON.stringify(result));
+  assert.equal(result.model, model);
+  assert.equal(result.probs.length, 2);
+  assert.ok(result.probs.every(prob => typeof prob === 'number' && prob >= 0 && prob <= 1));
+});

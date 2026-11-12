@@ -61,7 +61,18 @@ Jev uses the System One decision protocol to classify links as relevant or unrel
 
 **No model is selected automatically.** Model IDs come directly from the server, not a built-in list. Your choice and endpoint are stored locally. If the model disappears or the server is unavailable, the choice remains visible; no different model is substituted. Changing the endpoint successfully clears the old model choice so you can select one served by the new endpoint. Local endpoints are restricted to `http://127.0.0.1:<port>/v1` or `http://localhost:<port>/v1`.
 
-A GGUF filename containing “Decision” and the server's `output_modalities: ["text"]` are not evidence of whether `/v1/systemone` is supported. For example, a StartLux GGUF remains selectable for testing, but actual decisions require a compatible serving engine (see [StartLux engine instructions](https://github.com/StartLuxLabs/StartLux-Decision/blob/main/docs/engines.md)). The extension never treats text output alone as proof of incompatibility or verified decision support.
+A GGUF filename containing “Decision” and the server's `output_modalities: ["text"]` are not evidence of whether `/v1/systemone` is supported. The extension accepts both llama.cpp router `data[].id` and native System One `models[].name` inventories; it never treats text output alone as proof of incompatibility or verified decision support.
+
+**StartLux GGUF (local inference verified):** StartLux needs its [official decision engine](https://github.com/StartLuxLabs/StartLux-Decision/blob/main/docs/engines.md), plus the corresponding tokenizer and `decision_config.json` from [the upstream GGUF repository](https://huggingface.co/startlux-models/StartLux-Decision-v1-4B-Q4_K_M-GGUF). A GGUF file by itself is insufficient. Install `startlux-decide` into `~/.local/share/startlux-decide/.venv`, including `jinja2` (required by the upstream chat template), and place the upstream model configuration/tokenizer at `~/.local/share/startlux-decide/model-v1-4b`. With an existing local GGUF, start the two-process endpoint:
+
+```bash
+export STARTLUX_GGUF_PATH="/absolute/path/to/StartLux-Decision-v1-4B.Q4_K_S.gguf"
+./scripts/serve-startlux.sh
+# Then set Local System One URL: http://127.0.0.1:8812/v1
+# Select the discovered model and press Test Jev.
+```
+
+The launcher uses an already installed llama.cpp binary and official decision engine, refuses occupied ports, and stops only the model process it starts. It never downloads weights, chooses a model for you, or alters the shared router. Its default ports are 8811 (llama.cpp) and 8812 (System One), overrideable with `STARTLUX_MODEL_PORT` and `STARTLUX_API_PORT`. The engine's model name comes from its live `/v1/models` response. CPU inference can exceed the extension's 30-second deadline for larger link batches; GPU offloading should be verified separately.
 
 **Remote Jev providers:** TypeSafe, OpenCode Zen, OpenRouter Decisions API, and Venice remain available. Select the provider, enter its API key, press **Save key**, and use **Test Jev**. Changing to Local System One does not erase your remote credentials.
 
@@ -124,12 +135,21 @@ bun server/start.mjs
 
 The backend listens only on `127.0.0.1:5195`. It serves the live link-and-results dashboard at `/` and preview assets on `/popup.html` and `/options.html`; its health endpoint is `GET /api/health`. Cross-origin browser writes are rejected unless the request comes from a browser extension origin; local processes can still call the unauthenticated loopback API. Do not expose port `5195` through a network proxy or port forward. Actions are persisted under `~/.local/state/spider-crawler-extension/actions.sqlite` (override with `SPIDER_DB` only if explicitly configured). The listener is intentionally local; it has no external crawl capability.
 
-Run scoped tests:
+Run all extension and backend tests with the correct runtimes:
 
 ```bash
-node --test tests/jev-local.test.mjs tests/jev-settings.test.mjs tests/popup-controls.test.mjs tests/spider-coordinator.test.mjs
-bun test tests/backend.test.mjs
+./scripts/test.sh
 ```
+
+The backend suite uses Bun's `bun:test` and SQLite; service-worker tests run with Node. Optional live local-model tests additionally require the running endpoints:
+
+```bash
+SPIDER_LIVE_ROUTER_URL=http://127.0.0.1:8800/v1 \
+SPIDER_LIVE_STARTLUX_URL=http://127.0.0.1:8812/v1 \
+./scripts/test.sh
+```
+
+Live model coverage verifies all router entries are discovered and exercises a real System One Noul decision through the selected native engine. Only models whose inference APIs actually support the request should be exercised; an unverified text-output model is not automatically a System One model.
 
 ### References
 

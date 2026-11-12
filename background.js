@@ -40,11 +40,12 @@ async function discoverLocalModels(baseUrl) {
       signal: AbortSignal.timeout(5000) });
     if (!res.ok) return { ok: false, error: `http_${res.status}` };
     let data = await res.json();
-    if (!Array.isArray(data.data)) return { ok: false, error: 'malformed_models' };
+    const nativeList = !Array.isArray(data.data) && Array.isArray(data.models);
+    if (!nativeList && !Array.isArray(data.data)) return { ok: false, error: 'malformed_models' };
     let stale = false;
     // A llama.cpp router caches its inventory until /models?reload=1. Other
     // System One servers may not support that path, so probe it only for routers.
-    if (data.data.some(model => model?.status && typeof model.status.value === 'string')) {
+    if (!nativeList && data.data.some(model => model?.status && typeof model.status.value === 'string')) {
       try {
         const fresh = await fetch(new URL('/models?reload=1', base), {
           cache: 'no-store', headers: { Accept: 'application/json' },
@@ -60,13 +61,13 @@ async function discoverLocalModels(baseUrl) {
     const models = [];
     const unverifiedModels = [];
     const seen = new Set();
-    for (const model of data.data) {
-      const id = model?.id;
+    for (const model of nativeList ? data.models : data.data) {
+      const id = nativeList ? model?.name : model?.id;
       if (typeof id !== 'string' || !id || id.length > 256 || seen.has(id)) continue;
       seen.add(id);
       const modalities = model.architecture?.output_modalities;
       // Text describes the output format, not whether this model can make decisions.
-      if (Array.isArray(modalities) && modalities.includes('decisions')) models.push(id);
+      if (nativeList || Array.isArray(modalities) && modalities.includes('decisions')) models.push(id);
       else unverifiedModels.push(id);
     }
     return { ok: true, models, unverifiedModels, stale };
